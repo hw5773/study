@@ -29,7 +29,11 @@ int mutation(int i);
 int replacement(void);
 
 // the functions related to the representation.
+unsigned long get_nano_seconds(void);
 int init_population(void);
 int free_population(void);
-int init_chromosome(Chromosome **c, int);
-int free_chromosome(Chromosome **c);
+int init_offsprings(void);
+int free_offsprings(void);
+int init_chromosome(Chromosome **c);
+int free_chromosome(Chromosome *c);
+void print_chromosome(Chromosome *c);
