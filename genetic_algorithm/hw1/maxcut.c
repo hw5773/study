@@ -1,6 +1,7 @@
 #include "genetic.h"
 
 int num_of_vertex, num_of_edge;
+unsigned long start_time;
 
 int main(int argc, char *argv[])
 {
@@ -9,6 +10,8 @@ int main(int argc, char *argv[])
 		printf("Usage: ./maxcut <input data path> <output data path>\n");
 		exit(-1);
 	}
+
+	start_time = get_seconds();
 
 	in 		= fopen(argv[1], "r");
 	out 	= fopen(argv[2], "w");
@@ -28,18 +31,14 @@ int main(int argc, char *argv[])
 		edge[v2][v1] = w;
 	}
 	
-	for (i=0; i<=SIZE; i++)
-		for (j=0; j<=SIZE; j++)
-			printf("edge[%d][%d] = %d\n", i, j, edge[i][j]);
-
-
 	init_population();
 	init_offsprings();
-	init_fitness();
+	init_fitness(edge);
+	sort_population();
 
-	int stop = 0; // test variable for the stop_condition
-	while (stop < 2)
-//	while (!(stop_condition(edge)))
+//	int stop = 0; // test variable for the stop_condition
+//	while (stop < 2)
+	while (!(stop_condition()))
 	{
 		for (i=1; i<=K; i++)
 		{
@@ -49,11 +48,19 @@ int main(int argc, char *argv[])
 			mutation(i);
 		}
 
-		replacement();
+		replacement(edge);
+
+		sort_population();
 
 		// test variable for the stop_condition
-		stop++;
-		stop_condition(edge);
+//		stop++;
+//		stop_condition(edge);
+	}
+
+	for (i=0; i<=SIZE; i++)
+	{
+		if (population[N]->ch[i] == 1)
+			fprintf(out, "%d ", i);
 	}
 
 	free_offsprings();

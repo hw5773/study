@@ -3,11 +3,11 @@
 #include "genetic.h"
 #endif
 
-int init_fitness()
+int init_fitness(int edge[][SIZE+1])
 {
 	int i=0;
-	for (i=0; i<=N; i++)
-		fitness[i] = 0;
+	for (i=1; i<=N; i++)
+		population[i]->fitness = calc_fitness(population[i], edge);
 
 	return 1;
 }
@@ -27,39 +27,5 @@ int calc_fitness(Chromosome *c, int edge[][SIZE+1])
 		}
 	}
 
-	print_chromosome(c);
-	printf("fitness: %d\n", result);
-
 	return result;
 }
-
-int stop_condition(int edge[][SIZE+1])
-{
-	int i=0, max_val=0, count=0;
-	double rate = 0.0;
-
-	for (i=1; i<=SIZE; i++)
-		fitness[i] = calc_fitness(population[i], edge);
-
-	for (i=1; i<=SIZE; i++)
-	{
-		if (fitness[i] > max_val)
-		{
-			max_val = fitness[i];
-			count = 1;
-		}
-		else if (fitness[i] == max_val)
-			count++;
-		else
-			continue;
-	}
-
-	rate = ((double)count) / SIZE;
-
-	printf("rate: %lf\n", rate);
-	
-	if (rate >= S_RATE)
-		return 1;
-	else
-		return 0;
-}	

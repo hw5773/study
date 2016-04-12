@@ -3,16 +3,6 @@
 #include "genetic.h"
 #endif
 
-#include <stdlib.h>
-#include <time.h>
-
-unsigned long get_nano_seconds()
-{
-	struct timespec ts;
-	clock_gettime(CLOCK_REALTIME, &ts);
-	return 1000000000*(ts.tv_sec) + ts.tv_nsec;
-}
-
 int init_chromosome(Chromosome **c)
 {
 	*c = (Chromosome *)malloc(sizeof(Chromosome));
@@ -76,6 +66,32 @@ int free_offsprings(void)
 
 	return 1;
 }
+
+int sort_population(void)
+{
+	int i=0, j=0, k=0;
+	Chromosome *tmp;
+
+	for (i=1; i<=N; i++)
+	{
+		for (j=1; j<=i; j++)
+		{
+			if (population[j]->fitness > population[i]->fitness)
+			{
+				tmp = population[i];
+				for (k=i-1; k>=j; k++)
+					population[k+1] = population[k];
+				population[j] = tmp;
+			}
+		}
+	}
+
+	for (i=1; i<=N; i++)
+		print_chromosome(population[i]);
+
+	return 1;
+}
+					
 
 void print_chromosome(Chromosome *c)
 {

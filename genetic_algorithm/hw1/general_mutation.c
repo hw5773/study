@@ -15,7 +15,6 @@ int mutation(int n)
 	for (i = 0; i < SIZE; i++)
 	{
 		m_prob = (double)rand() / RAND_MAX;
-		printf("m_prob: %lf\n", m_prob);
 
 		if (m_prob < M_THRE)
 		{
