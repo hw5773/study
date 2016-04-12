@@ -9,7 +9,7 @@ SRC=maxcut.c \
 	general_replacement.c \
 	timestamp_stop_condition.c \
 	common.c
-OBJ=maxcut.o \
+DEFAULT=maxcut.o \
 	chromosome.o \
 	random_select.o \
 	one_point_crossover.o \
@@ -18,15 +18,28 @@ OBJ=maxcut.o \
 	general_replacement.o \
 	timestamp_stop_condition.o \
 	common.o
+RATE=maxcut.o \
+	chromosome.o \
+	random_select.o \
+	one_point_crossover.o \
+	fitness.o \
+	general_mutation.o \
+	general_replacement.o \
+	rate_stop_condition.o \
+	common.o
 
-all: $(OBJ)
-	$(COMPILER) -g -Wall -o $(OUT) $(OBJ)
+
+all: $(DEFAULT)
+	$(COMPILER) -g -Wall -o $(OUT) $(DEFAULT)
+
+rate: $(RATE)
+	$(COMPILER) -g -Wall -o $(OUT) $(RATE)
 
 .c.o:
 	$(COMPILER) -g -c $<
 
 clean:
-	rm -rf $(OUT) $(OBJ)
+	rm -rf $(OUT) $(DEFAULT) $(RATE)
 
 maxcut.o: maxcut.c
 chromosome.o: chromosome.c

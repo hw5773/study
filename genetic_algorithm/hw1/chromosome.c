@@ -6,13 +6,13 @@
 int init_chromosome(Chromosome **c)
 {
 	*c = (Chromosome *)malloc(sizeof(Chromosome));
-	(*c)->ch = (unsigned char *)malloc(SIZE);
+	(*c)->ch = (unsigned char *)malloc(SIZE+1);
 
 	int i=0;
 	unsigned long seed = get_nano_seconds();
 	srand(seed);
 
-	for (i=0; i<SIZE; i++) // zero base
+	for (i=1; i<=SIZE; i++) // zero base
 		(*c)->ch[i] = (unsigned char)rand()%2;
 
 	return 1;
@@ -69,38 +69,24 @@ int free_offsprings(void)
 
 int sort_population(void)
 {
-	printf("sort_population\n");
-
 	int i=0, j=0, k=0;
 	Chromosome *tmp;
 
 	for (i=1; i<=N; i++)
 	{
-		printf("pick [%d]", i);
-		print_chromosome(population[i]);
-
 		for (j=1; j<=i; j++)
 		{
-			printf("  compare with [%d]", j);
-			print_chromosome(population[j]);
 			if (population[j]->fitness > population[i]->fitness)
 			{
-				printf("insert [%d] in the [%d]\n", i, j);
 				tmp = population[i];
 				for (k=i-1; k>=j; k--)
 				{
-					printf("  move [%d] to [%d]\n", k, k+1);
 					population[k+1] = population[k];
 				}
 				population[j] = tmp;
 			}
 		}
 	}
-
-	for (i=1; i<=N; i++)
-		print_chromosome(population[i]);
-
-	printf("\n");
 
 	return 1;
 }
@@ -110,7 +96,7 @@ void print_chromosome(Chromosome *c)
 {
 	int i;
 
-	for (i=0; i<SIZE; i++)
+	for (i=1; i<=SIZE; i++)
 		printf("%x", c->ch[i]);
 
 	printf(": %d\n", c->fitness);

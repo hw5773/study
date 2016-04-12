@@ -36,8 +36,6 @@ int main(int argc, char *argv[])
 	init_fitness(edge);
 	sort_population();
 
-//	int stop = 0; // test variable for the stop_condition
-//	while (stop < 2)
 	while (!(stop_condition()))
 	{
 		for (i=1; i<=K; i++)
@@ -51,16 +49,18 @@ int main(int argc, char *argv[])
 		replacement(edge);
 
 		sort_population();
-
-		// test variable for the stop_condition
-//		stop++;
-//		stop_condition(edge);
 	}
 
-	for (i=0; i<=SIZE; i++)
+	printf("final:\n");
+	for (i=1; i<=N; i++)
+		print_chromosome(population[i]);
+
+	printf("\n");
+
+	for (i=1; i<=SIZE; i++)
 	{
 		if (population[N]->ch[i] == 1)
-			fprintf(out, "%d ", i+1);
+			fprintf(out, "%d ", i);
 	}
 
 	free_offsprings();

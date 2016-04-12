@@ -5,8 +5,8 @@
 #define SIZE 	num_of_vertex
 #define S_RATE	0.7
 #define M_THRE	0.015
-#define N		5
-#define K		1
+#define N		100
+#define K		80
 
 FILE 			*in, *out;
 extern int 		num_of_vertex;
