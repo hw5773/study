@@ -23,7 +23,7 @@ int init_chromosome(Chromosome **c)
 	srand(seed);
 
 	for (i=0; i<SIZE; i++) // zero base
-		(*c)->ch[i] = rand()%2;
+		(*c)->ch[i] = (unsigned char)rand()%2;
 
 	return 1;
 }
@@ -39,12 +39,7 @@ int init_population(void)
 	int i=1, j=0;
 
 	for (i=1; i<=N; i++) // first chromosome is in the index 1.
-	{
 		init_chromosome(&population[i]);
-
-		printf("%d: ", i);
-		print_chromosome(population[i]);
-	}
 
 	return 1;
 }

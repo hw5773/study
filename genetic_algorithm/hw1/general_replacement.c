@@ -1,9 +1,9 @@
 #ifndef __GENETIC_H__
+#define __GENETIC_H__
 #include "genetic.h"
 #endif
 
-int replacement(void)
+int replacement()
 {
-	return 0;
+	return 1;
 }
-

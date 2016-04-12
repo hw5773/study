@@ -13,10 +13,10 @@ int selection(int *p1, int *p2)
 	srand(seed);
 
 	*p1 = rand()%SIZE + 1;
-	*p2 = 0;
 
-	while (*p1 == *p2)
+	do {
 		*p2 = rand()%SIZE + 1;
+	} while (*p1 == *p2);
 
 	printf("p1: %d, p2: %d\n", *p1, *p2);
 
