@@ -23,10 +23,12 @@ int stop_condition()
 
 	rate = ((double)count) / N;
 
-	printf("rate: %lf\n", rate);
-	
 	if (rate >= S_RATE)
+	{
+		unsigned long curr_time = get_seconds();
+		printf("elapsed time: %lu us\n", curr_time - start_time);
 		return 1;
+	}
 	else
 		return 0;
 }	
