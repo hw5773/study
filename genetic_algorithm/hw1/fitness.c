@@ -5,9 +5,15 @@
 
 int init_fitness(int edge[][SIZE+1])
 {
+	printf("init_fitness\n");
 	int i=0;
 	for (i=1; i<=N; i++)
+	{
 		population[i]->fitness = calc_fitness(population[i], edge);
+		print_chromosome(population[i]);
+	}
+
+	printf("\n");
 
 	return 1;
 }

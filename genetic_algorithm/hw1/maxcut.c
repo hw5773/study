@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 	for (i=0; i<=SIZE; i++)
 	{
 		if (population[N]->ch[i] == 1)
-			fprintf(out, "%d ", i);
+			fprintf(out, "%d ", i+1);
 	}
 
 	free_offsprings();

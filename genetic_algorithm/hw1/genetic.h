@@ -5,7 +5,7 @@
 #define SIZE 	num_of_vertex
 #define S_RATE	0.7
 #define M_THRE	0.015
-#define N		50
+#define N		5
 #define K		1
 
 FILE 			*in, *out;
