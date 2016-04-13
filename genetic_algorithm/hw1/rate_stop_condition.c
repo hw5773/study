@@ -22,13 +22,20 @@ int stop_condition()
 	}
 
 	rate = ((double)count) / N;
+	unsigned long curr_time = get_seconds();
 
 	if (rate >= S_RATE)
 	{
-		unsigned long curr_time = get_seconds();
+		printf("rate: %lf / elapsed time: %lu / max val: %d\n", rate, curr_time - start_time, population[N]->fitness);
 		printf("elapsed time: %lu us\n", curr_time - start_time);
+		printf("max val: %d\n", population[N]->fitness);
+		fprintf(log_file, "%lf, %lu, %d\n", rate, curr_time - start_time, population[N]->fitness);
 		return 1;
 	}
 	else
+	{
+		printf("rate: %lf / elapsed time: %lu / curr max val: %d\n", rate, curr_time - start_time, population[N]->fitness);
+		fprintf(log_file, "%lf, %lu, %d\n", rate, curr_time - start_time, population[N]->fitness);
 		return 0;
+	}
 }	

@@ -13,6 +13,9 @@ extern int 		num_of_vertex;
 extern int 		num_of_edge;
 extern unsigned long	start_time;
 
+extern FILE		*log_file; //temporal file for the logging.
+
+
 typedef struct 	chromosome_t
 {
 	int size;

@@ -2,14 +2,20 @@
 
 int num_of_vertex, num_of_edge;
 unsigned long start_time;
+FILE *log_file;
 
 int main(int argc, char *argv[])
 {
-	if (argc != 3)
+	// Need to change to 3. need to remove the logging.
+	if (argc != 4)
 	{
-		printf("Usage: ./maxcut <input data path> <output data path>\n");
+		printf("Usage: ./maxcut <input data path> <output data path> <log file>\n");
 		exit(-1);
 	}
+	
+	// Need to remove when submitting.
+	log_file = fopen(argv[3], "w");
+	fprintf(log_file, "rate, elasped time (s), max val\n");
 
 	start_time = get_seconds();
 
