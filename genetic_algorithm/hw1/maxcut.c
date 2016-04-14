@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 	
 	init_population();
 	init_offsprings();
-	init_fitness(edge);
+	init_cost(edge);
 	sort_population();
 
 	while (!(stop_condition()))
@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
 			fprintf(out, "%d ", i);
 	}
 
-	free_offsprings();
+//	free_offsprings();
 	free_population();
 
 	fclose(in);

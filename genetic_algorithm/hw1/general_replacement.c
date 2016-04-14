@@ -8,7 +8,7 @@ int replacement(int edge[][SIZE+1])
 	int i=0;
 
 	for (i=1; i<=K; i++)
-		offsprings[i]->fitness = calc_fitness(offsprings[i], edge);
+		offsprings[i]->cost = calc_cost(offsprings[i], edge);
 
 	for (i=1; i<=K; i++)
 		memcpy(population[i], offsprings[i], sizeof(Chromosome));

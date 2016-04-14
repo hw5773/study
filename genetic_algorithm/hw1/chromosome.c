@@ -76,7 +76,7 @@ int sort_population(void)
 	{
 		for (j=1; j<=i; j++)
 		{
-			if (population[j]->fitness > population[i]->fitness)
+			if (population[j]->cost > population[i]->cost)
 			{
 				tmp = population[i];
 				for (k=i-1; k>=j; k--)
@@ -99,5 +99,5 @@ void print_chromosome(Chromosome *c)
 	for (i=1; i<=SIZE; i++)
 		printf("%x", c->ch[i]);
 
-	printf(": %d\n", c->fitness);
+	printf(": %d\n", c->cost);
 }

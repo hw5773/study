@@ -1,12 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
-#define SIZE 	num_of_vertex
-#define S_RATE	0.7
-#define M_THRE	0.015
-#define N		100
-#define K		10
+#define SIZE 		num_of_vertex
+#define S_RATE		0.7
+#define M_THRE		0.015
+#define N			100
+#define K			10
+
+#define ONE_POINT	3	// the parameter for the one point crossover
+#define K_FIT		4	// the order of the fitness btw the best and the worst
+
 
 FILE 			*in, *out;
 extern int 		num_of_vertex;
@@ -20,11 +25,11 @@ typedef struct 	chromosome_t
 {
 	int size;
 	unsigned char *ch;
-	int fitness;
+	int cost;
 } Chromosome;
 
-Chromosome 		*population[N+1];
-Chromosome 		*offsprings[K+1];
+Chromosome 		*population[N+1];	// The array of the populations
+Chromosome 		*offsprings[K+1];	// The array of the offsprings
 
 // if the stop condition is satisfied then returns 1, if not, returns 0
 int 			stop_condition(void); 
@@ -44,7 +49,7 @@ int 			init_population(void);
 int 			free_population(void);
 int 			init_offsprings(void);
 int 			free_offsprings(void);
-int				init_fitness(int edge[][SIZE+1]);
+int				init_cost(int edge[][SIZE+1]);
 int 			init_chromosome(Chromosome **c);
 int 			free_chromosome(Chromosome *c);
 int				sort_population(void);
