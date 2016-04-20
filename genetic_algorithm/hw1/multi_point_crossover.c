@@ -3,9 +3,27 @@
 #include "genetic.h"
 #endif
 
-int init_crossover(int point[])
+int init_crossover(int *point[])
 {
-	
+	int i, j, complete=0;
+	unsigned long seed = get_nano_seconds();
+	srand(seed);
+
+	for (i=0; i<POINTS; i++)
+	{
+		do {
+			*point[i] = rand()%SIZE;
+			complete = 1;
+			for (j=0; j<i; j++)
+			{
+				if (*point[j] == *point[i])
+					complete = 0;
+			}
+		} while (!complete);
+	}
+
+	return 1;
+}
 
 // i: the index number of the offspring
 // p1, p2: the index number of the parents

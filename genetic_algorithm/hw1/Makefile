@@ -36,6 +36,60 @@ ROULETTE=maxcut.o \
 	general_replacement.o \
 	rate_stop_condition.o \
 	common.o
+TORNAMENT=maxcut.o \
+	chromosome.o \
+	tornament_selection.o \
+	one_point_crossover.o \
+	cost.o \
+	general_mutation.o \
+	general_replacement.o \
+	rate_stop_condition.o \
+	common.o
+MULTI=maxcut.o \
+	chromosome.o \
+	tornament_selection.o \
+	multi_point_crossover.o \
+	cost.o \
+	general_mutation.o \
+	general_replacement.o \
+	rate_stop_condition.o \
+	common.o
+MULTI_TIME=maxcut.o \
+	chromosome.o \
+	tornament_selection.o \
+	multi_point_crossover.o \
+	cost.o \
+	general_mutation.o \
+	general_replacement.o \
+	timestamp_stop_condition.o \
+	common.o
+UNIFORM=maxcut.o \
+	chromosome.o \
+	tornament_selection.o \
+	uniform_crossover.o \
+	cost.o \
+	general_mutation.o \
+	general_replacement.o \
+	timestamp_stop_condition.o \
+	common.o
+ORDER_UNIFORM=maxcut.o \
+	chromosome.o \
+	order_based_selection.o \
+	uniform_crossover.o \
+	cost.o \
+	general_mutation.o \
+	general_replacement.o \
+	rate_stop_condition.o \
+	common.o
+ORDER_MULTI=maxcut.o \
+	chromosome.o \
+	order_based_selection.o \
+	multi_point_crossover.o \
+	cost.o \
+	general_mutation.o \
+	general_replacement.o \
+	rate_stop_condition.o \
+	common.o
 
 all: $(DEFAULT)
 	$(COMPILER) -g -Wall -o $(OUT) $(DEFAULT)
@@ -46,19 +100,27 @@ rate: $(RATE)
 roulette: $(ROULETTE)
 	$(COMPILER) -g -Wall -o $(OUT) $(ROULETTE)
 
+tornament: $(TORNAMENT)
+	$(COMPILER) -g -Wall -o $(OUT) $(TORNAMENT)
+
+multi: $(MULTI)
+	$(COMPILER) -g -Wall -o $(OUT) $(MULTI)
+
+multi_time: $(MULTI_TIME)
+	$(COMPILER) -g -Wall -o $(OUT) $(MULTI_TIME)
+
+uniform: $(UNIFORM)
+	$(COMPILER) -g -Wall -o $(OUT) $(UNIFORM)
+
+order_uniform: $(ORDER_UNIFORM)
+	$(COMPILER) -g -Wall -o $(OUT) $(ORDER_UNIFORM)
+
+order_multi: $(ORDER_MULTI)
+	$(COMPILER) -g -Wall -o $(OUT) $(ORDER_MULTI)
+
 .c.o:
 	$(COMPILER) -g -c $<
 
 clean:
-	rm -rf $(OUT) $(DEFAULT) $(RATE)
+	rm -rf $(OUT) $(DEFAULT) $(RATE) $(ROULETTE) $(TORNAMENT)
 
-maxcut.o: maxcut.c
-chromosome.o: chromosome.c
-mock.o: mock.c
-random_select.o: random_select.c
-roulette_selection.o: roulette_selection.c
-one_point_crossover.o: one_point_crossover.c
-cost.o: cost.c
-general_mutation.o: general_mutation.c
-timestamp_stop_condition.o: timestamp_stop_condition.c
-common.o: common.c
