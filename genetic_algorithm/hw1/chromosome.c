@@ -15,6 +15,9 @@ int init_chromosome(Chromosome **c)
 	for (i=1; i<=SIZE; i++) // zero base
 		(*c)->ch[i] = (unsigned char)rand()%2;
 
+	(*c)->p1 = 0;
+	(*c)->p2 = 0;
+
 	return 1;
 }
 

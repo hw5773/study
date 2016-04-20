@@ -28,6 +28,7 @@ typedef struct 	chromosome_t
 	int size;
 	unsigned char *ch;
 	int cost;
+	int p1, p2;
 } Chromosome;
 
 Chromosome 		*population[N+1];	// The array of the populations
