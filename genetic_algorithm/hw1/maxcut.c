@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 	
 	// Need to remove when submitting.
 	log_file = fopen(argv[3], "w");
-	fprintf(log_file, "rate, elasped time (s), max val\n");
+	fprintf(log_file, "rate, elasped time (s), max val, avg val\n");
 
 	start_time = get_seconds();
 
@@ -41,12 +41,14 @@ int main(int argc, char *argv[])
 	init_offsprings();
 	init_cost(edge);
 	sort_population();
+	init_crossover();
+
+	int p1, p2;
 
 	while (!(stop_condition()))
 	{
 		for (i=1; i<=K; i++)
 		{
-			int p1, p2;
 			selection(&p1, &p2);
 			crossover(i, p1, p2);
 			mutation(i);
@@ -57,19 +59,12 @@ int main(int argc, char *argv[])
 		sort_population();
 	}
 
-	printf("final:\n");
-	for (i=1; i<=N; i++)
-		print_chromosome(population[i]);
-
-	printf("\n");
-
 	for (i=1; i<=SIZE; i++)
 	{
 		if (population[N]->ch[i] == 1)
 			fprintf(out, "%d ", i);
 	}
 
-//	free_offsprings();
 	free_population();
 
 	fclose(in);

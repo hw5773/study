@@ -3,6 +3,13 @@
 #include "genetic.h"
 #endif
 
+#define ONE_POINT 3
+
+int init_crossover(void)
+{
+	return 1;
+}
+
 // i: the index number of the offspring
 // p1, p2: the index number of the parents
 int crossover(int i, int p1, int p2)
