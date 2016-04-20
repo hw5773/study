@@ -1,5 +1,6 @@
 COMPILER=gcc
 OUT=maxcut
+HEADER=genetic.h
 SRC=maxcut.c \
 	chromosome.c \
 	random_select.c \
@@ -90,33 +91,57 @@ ORDER_MULTI=maxcut.o \
 	general_replacement.o \
 	rate_stop_condition.o \
 	common.o
+SET1=maxcut.o \
+	chromosome.o \
+	order_based_selection.o \
+	uniform_crossover.o \
+	cost.o \
+	general_mutation.o \
+	preselection_replacement.o \
+	rate_stop_condition.o \
+	common.o
+SET2=maxcut.o \
+	chromosome.o \
+	order_based_selection.o \
+	uniform_crossover.o \
+	cost.o \
+	general_mutation.o \
+	preselection_variant_replacement.o \
+	rate_stop_condition.o \
+	common.o
 
-all: $(DEFAULT)
+all: $(DEFAULT) $(HEADER)
 	$(COMPILER) -g -Wall -o $(OUT) $(DEFAULT)
 
-rate: $(RATE)
+rate: $(RATE) $(HEADER)
 	$(COMPILER) -g -Wall -o $(OUT) $(RATE)
 
-roulette: $(ROULETTE)
+roulette: $(ROULETTE) $(HEADER)
 	$(COMPILER) -g -Wall -o $(OUT) $(ROULETTE)
 
-tornament: $(TORNAMENT)
+tornament: $(TORNAMENT) $(HEADER)
 	$(COMPILER) -g -Wall -o $(OUT) $(TORNAMENT)
 
-multi: $(MULTI)
+multi: $(MULTI) $(HEADER)
 	$(COMPILER) -g -Wall -o $(OUT) $(MULTI)
 
-multi_time: $(MULTI_TIME)
+multi_time: $(MULTI_TIME) $(HEADER)
 	$(COMPILER) -g -Wall -o $(OUT) $(MULTI_TIME)
 
-uniform: $(UNIFORM)
+uniform: $(UNIFORM) $(HEADER)
 	$(COMPILER) -g -Wall -o $(OUT) $(UNIFORM)
 
-order_uniform: $(ORDER_UNIFORM)
+order_uniform: $(ORDER_UNIFORM) $(HEADER)
 	$(COMPILER) -g -Wall -o $(OUT) $(ORDER_UNIFORM)
 
-order_multi: $(ORDER_MULTI)
+order_multi: $(ORDER_MULTI) $(HEADER)
 	$(COMPILER) -g -Wall -o $(OUT) $(ORDER_MULTI)
+
+set1: $(SET1) $(HEADER)
+	$(COMPILER) -g -Wall -o $(OUT) $(SET1)
+
+set2: $(SET2) $(HEADER)
+	$(COMPILER) -g -Wall -o $(OUT) $(SET2)
 
 .c.o:
 	$(COMPILER) -g -c $<
