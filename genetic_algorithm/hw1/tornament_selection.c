@@ -5,18 +5,19 @@
 
 int selection(int *p1, int *p2)
 {
-	int tmp, tmp1, tmp2, i, r, bigger;
+	int tmp, tmp1, tmp2, i, bigger;
 	int num[2];
 	unsigned long seed = get_nano_seconds();
+	double r = 0.0;
 	srand(seed);
 
 	for (i=0; i<2; i++)
 	{
-		tmp1 = rand() % N;
-		r = rand() / INT_MAX;
+		tmp1 = rand() % N + 1;
+		r = (double)rand() / INT_MAX;
 
 		do {
-			tmp2 = rand() % N;
+			tmp2 = rand() % N + 1;
 		} while (tmp1 == tmp2);
 
 		if (population[tmp1]->cost < population[tmp2]->cost)

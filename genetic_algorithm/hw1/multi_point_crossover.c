@@ -3,23 +3,40 @@
 #include "genetic.h"
 #endif
 
-int init_crossover(int *point[])
+int point[POINTS+1];
+
+int init_crossover(void)
 {
-	int i, j, complete=0;
+	int i, j, min=0, tmp, complete=0;
 	unsigned long seed = get_nano_seconds();
 	srand(seed);
 
-	for (i=0; i<POINTS; i++)
+	point[0] = 1;
+
+	for (i=1; i<=POINTS; i++)
 	{
 		do {
-			*point[i] = rand()%SIZE;
+			point[i] = rand()%SIZE+1;
 			complete = 1;
 			for (j=0; j<i; j++)
 			{
-				if (*point[j] == *point[i])
+				if (point[j] == point[i])
 					complete = 0;
 			}
 		} while (!complete);
+	}
+
+	for (i=1; i<=POINTS; i++)
+	{
+		min = point[i];
+		for (j=i; j<POINTS; j++)
+		{
+			if (point[j] < min)
+				min = point[j];
+		}
+		tmp = point[i];
+		point[i] = point[j];
+		point[j] = tmp;
 	}
 
 	return 1;
@@ -32,11 +49,14 @@ int crossover(int i, int p1, int p2)
 	init_chromosome(&offsprings[i]);
 
 	int n=0, m=0;
-	for (n=1; n<=SIZE; n++)
+	for (n=0; n<=POINTS; n++)
 	{
-		for (m=0; m<=POINTS; m++)
+		for (m=point[n]; (m<=SIZE || m<=point[n+1]); m++)
 		{
-			// TODO: 
+			if (m % 2 == 0)
+				memcpy(&offsprings[i]->ch[m], &population[p1]->ch[m], sizeof(unsigned char));
+			else
+				memcpy(&offsprings[i]->ch[m], &population[p2]->ch[m], sizeof(unsigned char));
 		}
 	}
 

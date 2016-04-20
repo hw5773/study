@@ -3,8 +3,6 @@
 #include "genetic.h"
 #endif
 
-#include <time.h>
-
 int fitness[N+1];	// The array of the fitness
 
 int calc_fitness();	// Calculating the fitness

@@ -9,7 +9,6 @@ int init_fitness(int edge[][SIZE+1])
 	for (i=1; i<=N; i++)
 	{
 		population[i]->fitness = calc_fitness(population[i], edge);
-		print_chromosome(population[i]);
 	}
 
 	return 1;
