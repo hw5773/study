@@ -10,6 +10,7 @@
 #define K			10
 
 #define ONE_POINT	3	// the parameter for the one point crossover
+#define MULTI_POINT	4	// the parameter for the multi point crossover
 #define K_FIT		4	// the order of the fitness btw the best and the worst
 
 
