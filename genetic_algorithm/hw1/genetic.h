@@ -11,7 +11,12 @@
 #define K			10
 #define P0			0.6
 
+<<<<<<< HEAD
 #define POINTS		10
+=======
+#define ONE_POINT	3	// the parameter for the one point crossover
+#define MULTI_POINT	4	// the parameter for the multi point crossover
+>>>>>>> 18b2016e6d203b9c88f05e69e1e4617dc74a56aa
 #define K_FIT		4	// the order of the fitness btw the best and the worst
 #define T			0.7	// the threshold of the tornament selection
 
