@@ -48,7 +48,7 @@ int crossover(int i, int p1, int p2)
 {
 	init_chromosome(&offsprings[i]);
 
-	if (offsprings[p1]->cost < offsprings[p2]->cost)
+	if (population[p1]->cost < population[p2]->cost)
 	{
 		offsprings[i]->p1 = p1;
 		offsprings[i]->p2 = p2;

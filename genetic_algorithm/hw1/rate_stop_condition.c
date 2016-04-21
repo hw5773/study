@@ -28,15 +28,15 @@ int stop_condition()
 
 	if (rate >= S_RATE || ((curr_time - start_time) >= 180))
 	{
-//		printf("rate: %lf / elapsed time: %lu / max val: %d / avg val: %.2lf\n", rate, curr_time - start_time, population[N]->cost, avg_val);
-//		printf("elapsed time: %lu s\n", curr_time - start_time);
-//		printf("max val: %d\n", population[N]->cost);
+		printf("rate: %lf / elapsed time: %lu / max val: %d / avg val: %.2lf\n", rate, curr_time - start_time, population[N]->cost, avg_val);
+		printf("elapsed time: %lu s\n", curr_time - start_time);
+		printf("max val: %d\n", population[N]->cost);
 		fprintf(log_file, "%lf, %lu, %d, %.2lf\n", rate, curr_time - start_time, population[N]->cost, avg_val);
 		return 1;
 	}
 	else
 	{
-//		printf("rate: %lf / elapsed time: %lu s / curr max val: %d / avg val: %.2lf\n", rate, curr_time - start_time, population[N]->cost, avg_val);
+		printf("rate: %lf / elapsed time: %lu s / curr max val: %d / avg val: %.2lf\n", rate, curr_time - start_time, population[N]->cost, avg_val);
 		fprintf(log_file, "%lf, %lu, %d, %.2lf\n", rate, curr_time - start_time, population[N]->cost, avg_val);
 		return 0;
 	}
