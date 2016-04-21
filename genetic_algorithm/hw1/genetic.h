@@ -6,7 +6,7 @@
 
 #define SIZE 		num_of_vertex
 #define S_RATE		0.7
-#define M_THRE		0.015
+#define M_THRE		0.1
 #define N			100
 #define K			10
 #define P0			0.6
@@ -14,6 +14,7 @@
 #define POINTS		4
 #define K_FIT		4	// the order of the fitness btw the best and the worst
 #define T			0.7	// the threshold of the tornament selection
+#define C			0.5 // the threshold of the reverse selection
 
 FILE 			*in, *out;
 extern int 		num_of_vertex;
