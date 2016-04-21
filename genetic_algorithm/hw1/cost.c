@@ -7,10 +7,7 @@ int init_cost(int edge[][SIZE+1])
 {
 	int i=0;
 	for (i=1; i<=N; i++)
-	{
 		population[i]->cost = calc_cost(population[i], edge);
-		print_chromosome(population[i]);
-	}
 
 	return 1;
 }
