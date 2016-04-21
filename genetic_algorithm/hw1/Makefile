@@ -93,7 +93,7 @@ ORDER_MULTI=maxcut.o \
 	common.o
 SET1=maxcut.o \
 	chromosome.o \
-	order_based_selection.o \
+	tornament_selection.o \
 	uniform_crossover.o \
 	cost.o \
 	general_mutation.o \
