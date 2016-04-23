@@ -3,8 +3,8 @@ OUT=maxcut
 HEADER=genetic.h
 SRC=maxcut.c \
 	chromosome.c \
-	random_select.c \
-	one_point_crossover.c \
+	random_selection.c \
+	fixedonepoint_crossover.c \
 	cost.c \
 	general_mutation.c \
 	general_replacement.c \
@@ -12,8 +12,8 @@ SRC=maxcut.c \
 	common.c
 DEFAULT=maxcut.o \
 	chromosome.o \
-	random_select.o \
-	one_point_crossover.o \
+	random_selection.o \
+	fixedonepoint_crossover.o \
 	cost.o \
 	general_mutation.o \
 	general_replacement.o \
@@ -21,8 +21,8 @@ DEFAULT=maxcut.o \
 	common.o
 RATE=maxcut.o \
 	chromosome.o \
-	random_select.o \
-	one_point_crossover.o \
+	random_selection.o \
+	fixedonepoint_crossover.o \
 	cost.o \
 	general_mutation.o \
 	general_replacement.o \
@@ -31,7 +31,7 @@ RATE=maxcut.o \
 ROULETTE=maxcut.o \
 	chromosome.o \
 	roulette_selection.o \
-	one_point_crossover.o \
+	fixedonepoint_crossover.o \
 	cost.o \
 	general_mutation.o \
 	general_replacement.o \
@@ -40,7 +40,7 @@ ROULETTE=maxcut.o \
 TORNAMENT=maxcut.o \
 	chromosome.o \
 	tornament_selection.o \
-	one_point_crossover.o \
+	fixedonepoint_crossover.o \
 	cost.o \
 	general_mutation.o \
 	general_replacement.o \
@@ -49,7 +49,7 @@ TORNAMENT=maxcut.o \
 MULTI=maxcut.o \
 	chromosome.o \
 	tornament_selection.o \
-	multi_point_crossover.o \
+	fixedmultipoint_crossover.o \
 	cost.o \
 	general_mutation.o \
 	general_replacement.o \
@@ -58,7 +58,7 @@ MULTI=maxcut.o \
 MULTI_TIME=maxcut.o \
 	chromosome.o \
 	tornament_selection.o \
-	multi_point_crossover.o \
+	fixedmultipoint_crossover.o \
 	cost.o \
 	general_mutation.o \
 	general_replacement.o \
@@ -85,7 +85,7 @@ ORDER_UNIFORM=maxcut.o \
 ORDER_MULTI=maxcut.o \
 	chromosome.o \
 	order_based_selection.o \
-	multi_point_crossover.o \
+	fixedmultipoint_crossover.o \
 	cost.o \
 	general_mutation.o \
 	general_replacement.o \
