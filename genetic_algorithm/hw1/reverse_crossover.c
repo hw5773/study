@@ -19,7 +19,7 @@ int crossover(int i, int p1, int p2)
 	unsigned long seed = get_nano_seconds();
 	srand(seed);
 	t1 = (double)rand() / INT_MAX;
-	t1 = (double)rand() / INT_MAX;
+	t2 = (double)rand() / INT_MAX;
 
 	init_chromosome(&offsprings[i]);
 

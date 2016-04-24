@@ -3,9 +3,9 @@
 #include "genetic.h"
 #endif
 
-#define GRADIENT 0.0015
-#define INIT_THRE 0.3
-#define THRESHOLD 0.015
+#define GRADIENT 0.001
+#define INIT_THRE 0.15
+#define THRESHOLD 0.05
 
 int mutation(int n)
 {

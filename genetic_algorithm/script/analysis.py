@@ -64,7 +64,7 @@ for csv in csv_files:
 			
 			line = "%d, %.2lf, %.2lf, %.6lf, %d, %.6lf, %d, %.6lf, %d, %.6lf, " % (num, sum(et)/len(et), sum(mv)/len(mv), sum(r)/len(r), mv[0], r[0], mv[1], r[1], mv[2], r[2])
 			line = line + "%s, %d, %d, " % (prefix_lst[0], graph[prefix_lst[0]]["node"], graph[prefix_lst[0]]["edge"])
-			line = line + "%s, %s, %s, %s, %d, %d, %f, %f, %f, %d, %d, %f\n" % (prefix_lst[6], prefix_lst[2], prefix_lst[3], prefix_lst[4], int(prefix_lst[9][1:]), int(prefix_lst[10][1:]), float(prefix_lst[7][1:]), float(prefix_lst[8][1:]), float(prefix_lst[11][2:]), int(prefix_lst[12][1:]), int(prefix_lst[13][2:]), float(prefix_lst[14][1:]), float(prefix_lst[15][1:])
+			line = line + "%s, %s, %s, %s, %d, %d, %f, %f, %f, %d, %d, %f, %f\n" % (prefix_lst[6], prefix_lst[2], prefix_lst[3], prefix_lst[4], int(prefix_lst[9][1:]), int(prefix_lst[10][1:]), float(prefix_lst[7][1:]), float(prefix_lst[8][1:]), float(prefix_lst[11][2:]), int(prefix_lst[12][1:]), float(prefix_lst[13][2:]), float(prefix_lst[14][1:]), float(prefix_lst[15][1:]))
 
 # mutation name is not included
 
@@ -77,6 +77,7 @@ for csv in csv_files:
 		mv = []
 
 	f = open(csv, "r")
+	print f
 
 	for l in f:
 		pass
