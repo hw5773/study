@@ -109,6 +109,33 @@ SET2=maxcut.o \
 	preselection_variant_replacement.o \
 	rate_stop_condition.o \
 	common.o
+SET3=maxcut.o \
+	chromosome.o \
+	order_based_selection.o \
+	reverse_crossover.o \
+	cost.o \
+	general_mutation.o \
+	preselectionvariant_replacement.o \
+	rate_stop_condition.o \
+	common.o
+SET4=maxcut.o \
+	chromosome.o \
+	order_based_selection.o \
+	reverse_crossover.o \
+	cost.o \
+	increase_mutation.o \
+	preselectionvariant_replacement.o \
+	rate_stop_condition.o \
+	common.o
+SET5=maxcut.o \
+	chromosome.o \
+	order_based_selection.o \
+	reverse_crossover.o \
+	cost.o \
+	decrease_mutation.o \
+	preselectionvariant_replacement.o \
+	rate_stop_condition.o \
+	common.o
 
 all: $(DEFAULT) $(HEADER)
 	$(COMPILER) -g -Wall -o $(OUT) $(DEFAULT)
@@ -142,6 +169,15 @@ set1: $(SET1) $(HEADER)
 
 set2: $(SET2) $(HEADER)
 	$(COMPILER) -g -Wall -o $(OUT) $(SET2)
+
+set3: $(SET3) $(HEADER)
+	$(COMPILER) -g -Wall -o $(OUT) $(SET3)
+
+set4: $(SET4) $(HEADER)
+	$(COMPILER) -g -Wall -o $(OUT) $(SET4)
+
+set5: $(SET5) $(HEADER)
+	$(COMPILER) -g -Wall -o $(OUT) $(SET5)
 
 .c.o:
 	$(COMPILER) -g -c $<

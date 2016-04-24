@@ -13,6 +13,7 @@
 
 #define POINTS		4
 #define K_FIT		4	// the order of the fitness btw the best and the worst
+#define K_TOR		2
 #define T			0.7	// the threshold of the tornament selection
 #define C			0.5 // the threshold of the reverse selection
 

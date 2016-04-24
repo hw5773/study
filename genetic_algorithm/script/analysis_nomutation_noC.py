@@ -72,6 +72,9 @@ for csv in csv_files:
 		prefix = tmp
 		prefix_lst = tmp_lst
 
+		prefix = tmp
+		prefix_lst = tmp_lst
+
 		r = []
 		et = []
 		mv = []

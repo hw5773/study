@@ -43,29 +43,46 @@ int selection(int *p1, int *p2)
 
 double calc_fitness()
 {
-	int max_cost = 0, min_cost = INT_MAX, i=0, j=0, sigma=0;
+	int max_cost = 0, min_cost = INT_MAX, max_ch = 0, min_ch = 0, i=0, j=0, k=0, sigma=0, count=0;
 	double sum_of_fitness=0.0, sharing = 0.0;
 
 	for (i=1; i<=N; i++)
 	{
 		if (population[i]->cost > max_cost)
+		{
 			max_cost = population[i]->cost;
+			max_ch = i;
+		}
 
 		if (population[i]->cost < min_cost)
+		{
 			min_cost = population[i]->cost;
+			min_ch = i;
+		}
 	}
 
 	for (i=1; i<=N; i++)
 		fitness[i] = max_cost + (i-1)*(min_cost - max_cost)/(N-1);
 
-	sigma = max_cost - min_cost;
+	for (i=1; i<=N; i++)
+	{
+		if (population[max_ch]->ch[i] != population[min_ch]->ch[i])
+			sigma++;
+	}
 
 	for (i=1; i<=N; i++)
 	{
 		for (j=1; j<=N; j++)
 		{
 			if (i==j) continue;
-			sharing += (1 - fabs(((double)(population[i]->cost - population[j]->cost))/sigma));
+			
+			for (k=1; k<=SIZE; k++) // calculate the hamming distance
+			{
+				if (population[i]->ch[k] != population[j]->ch[k])
+					count++;
+			}
+
+			sharing += (1 - fabs(((double)count)/sigma));
 		}
 		sfitness[i] = (double)fitness[i] / sharing;
 		sum_of_fitness += sfitness[i];
