@@ -17,7 +17,7 @@ int selection(int *p1, int *p2)
 
 	for (i=0; i<2; i++)
 	{
-		for (j=0; j<K_TOR; j++)
+		for (j=0; j<num_of_candidates; j++)
 		{
 			candidate[j] = rand() % N + 1;
 			complete = 0;
