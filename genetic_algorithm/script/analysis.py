@@ -56,8 +56,6 @@ for csv in csv_files:
 	tmp = "_".join(tmp_lst[0:-1])
 
 	if prefix != tmp:
-		prefix = tmp
-		prefix_lst = tmp_lst
 
 		if start:
 			num = num + 1
@@ -71,6 +69,9 @@ for csv in csv_files:
 			out_file.write(line)
 
 		start = True
+
+		prefix = tmp
+		prefix_lst = tmp_lst
 
 		r = []
 		et = []
