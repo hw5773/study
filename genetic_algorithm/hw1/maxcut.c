@@ -70,8 +70,12 @@ int main(int argc, char *argv[])
 	fclose(in);
 	fclose(out);
 
+<<<<<<< HEAD
+	printf("N: %d, K: %d, S_RATE: %lf, M_THRE: %lf, P0: %lf, POINTS: %d, K_FIT: %d, T: %lf\n", N, K, S_RATE, M_THRE, P0, POINTS, K_FIT, T);
+=======
  	printf("N: %d, K: %d, S_RATE: %lf, M_THRE: %lf, P0: %lf, POINTS: %d, K_FIT: %d, T: %lf\n", N,     K, S_RATE, M_THRE, P0, POINTS, K_FIT, T);
 
+>>>>>>> 0d2cc866145a41bfeff6639cce503075974fb702
 
 	return 0;
 }

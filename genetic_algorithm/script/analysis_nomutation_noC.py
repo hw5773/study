@@ -29,7 +29,7 @@ out_file.write("number, avg elapsed time (s), avg max val, avg rate, max val1, r
 
 for root, dirs, files in os.walk("../hw1/"):
 	for directory in dirs:
-		if "maxcut" in directory:
+		if "maxcut500_N100_K80_M0.015" in directory:
 			d.append(directory)
 
 for directory in d:
@@ -69,6 +69,8 @@ for csv in csv_files:
 			out_file.write(line)
 
 		start = True
+		prefix = tmp
+		prefix_lst = tmp_lst
 
 		prefix = tmp
 		prefix_lst = tmp_lst
