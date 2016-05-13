@@ -47,8 +47,8 @@ for b in representation:
 			for r in replacement:
 				for st in stop:
 					for se in selection:
-						os.system("gcc -o maxcut " + common + " " + b + " " + " " + c + " " + m + " " + r + " " + st + " " + se)
+						os.system("gcc -o maxcut " + common + " " + b + " " + " " + c + " " + m + " " + r + " " + st + " " + " local_optimization.o " + se)
 						
 						for num in range(25, 30):
-							file_prefix = new_dir + "/" + g.split(".")[0] + "_binary_" + c.split("_")[0] + "_" + m.split("_")[0] + "_" + r.split("_")[0] + "_" + st.split("_")[0] + "_" + se.split("_")[0] + "_" + "NOTLOCAL_S0.7_M0.3_N1000_K1_P00.51_P4_KF4_T0.7_C0.5"
+							file_prefix = new_dir + "/" + g.split(".")[0] + "_binary_" + c.split("_")[0] + "_" + m.split("_")[0] + "_" + r.split("_")[0] + "_" + st.split("_")[0] + "_" + se.split("_")[0] + "_" + "LOCAL_S0.7_M0.3_N1000_K1_P00.51_P4_KF4_T0.7_C0.5"
 							os.system("./maxcut " + graph + " " + file_prefix + "_" + str(num) + ".res " + file_prefix + "_" + str(num) + ".csv")
