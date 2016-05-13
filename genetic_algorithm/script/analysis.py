@@ -1,7 +1,28 @@
 import os
+import math
+
+def mean(values):
+	if len(values) == 0:
+		return None
+	return sum(values, 0.0) / len(values)
+
+def stdev(values):
+	if len(values) < 2:
+		return None
+
+	sd = 0.0
+	sum_val = 0.0
+	mean_val = mean(values)
+
+	for i in range(0, len(values)):
+		diff = values[i] - mean_val
+		sum_val = sum_val + diff * diff
+
+	sd = math.sqrt(sum_val / (len(values)))
+	return sd
 
 d = []
-out_file = open("result.csv", "w")
+out_file = open("result.csv", "a")
 
 num = 0
 S_RATE = 0.7
@@ -25,11 +46,11 @@ graph["maxcut100"]["edge"] = 495
 graph["maxcut500"]["node"] = 500
 graph["maxcut500"]["edge"] = 4990
 
-out_file.write("number, avg elapsed time (s), avg max val, avg rate, max val1, rate 1, max val2, rate 2, max val 3, rate 3, graph, nodes, edges, selection, crossover, mutation, replacement, N, K, S_RATE, M_THRE, P0, POINTS, K_FIT, T, C\n")
+out_file.write("number, avg elapsed time (s), avg max val, max val, stdev\n")
 
 for root, dirs, files in os.walk("../hw1/"):
 	for directory in dirs:
-		if "maxcut" in directory:
+		if "maxcut100_case4" in directory:
 			d.append(directory)
 
 for directory in d:
@@ -60,12 +81,11 @@ for csv in csv_files:
 		if start:
 			num = num + 1
 			
-			line = "%d, %.2lf, %.2lf, %.6lf, %d, %.6lf, %d, %.6lf, %d, %.6lf, " % (num, sum(et)/len(et), sum(mv)/len(mv), sum(r)/len(r), mv[0], r[0], mv[1], r[1], mv[2], r[2])
-			line = line + "%s, %d, %d, " % (prefix_lst[0], graph[prefix_lst[0]]["node"], graph[prefix_lst[0]]["edge"])
-			line = line + "%s, %s, %s, %s, %d, %d, %f, %f, %f, %d, %d, %f\n" % (prefix_lst[6], prefix_lst[2], prefix_lst[3], prefix_lst[4], int(prefix_lst[9][1:]), int(prefix_lst[10][1:]), float(prefix_lst[7][1:]), float(prefix_lst[8][1:]), float(prefix_lst[11][2:]), int(prefix_lst[12][1:]), int(prefix_lst[13][2:]), float(prefix_lst[14][1:]), float(prefix_lst[15][1:])
+			line = "%d, %.2lf, %.2lf, %.2lf\n" % (num, sum(et)/len(et), sum(mv)/len(mv), max(mv))
 
 # mutation name is not included
 
+			print line
 			out_file.write(line)
 
 		start = True
@@ -88,4 +108,6 @@ for csv in csv_files:
 
 	f.close()
 
+line = "%d, %.2lf, %.2lf, %.2lf, %.2lf\n" % (num, sum(et)/len(et), sum(mv)/len(mv), max(mv), stdev(mv))
+out_file.write(line)
 out_file.close()

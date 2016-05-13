@@ -6,19 +6,14 @@
 
 #define SIZE 		num_of_vertex
 #define S_RATE		0.7
-<<<<<<< HEAD
-#define M_THRE		0.15
+#define M_THRE		0.1
 #define N			1000
 #define K			800
-=======
-#define M_THRE		0.015
-#define N			100
-#define K			80
->>>>>>> 2b5abc3b2299c92d4ae2a7028392d790646408b5
 #define P0			0.6
 
 #define POINTS		4
 #define K_FIT		4	// the order of the fitness btw the best and the worst
+#define K_TOR		2
 #define T			0.7	// the threshold of the tornament selection
 #define C			0.5 // the threshold of the reverse selection
 

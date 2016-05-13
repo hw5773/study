@@ -9,6 +9,7 @@ selection = []
 crossover = []
 mutation = []
 replacement = []
+local = []
 stop = []
 common = "cost.o maxcut.o common.o"
 new_dir = sys.argv[1]
@@ -19,20 +20,29 @@ os.system("gcc -c *.c")
 
 for root, dirs, files in os.walk("./"):
 	for f in files:
-		if "crossover.o" in f:
+		if "fixedonepoint_crossover.o" in f:
 			crossover.append(f)
-		elif "mutation.o" in f:
+		elif "decrease_mutation.o" in f:
 			mutation.append(f)
-		elif "replacement.o" in f:
+		elif "general_replacement.o" in f:
 			replacement.append(f)
 		elif "chromosome.o" in f:
 			representation.append(f)
 		elif "stop_condition.o" in f:
 			stop.append(f)
-		elif "selection.o" in f:
+		elif "roulette_selection.o" in f:
 			selection.append(f)
+		elif "local_optimization.o" in f:
+			local.append(f)
 		else:
 			continue
+
+print crossover
+print mutation
+print replacement
+print representation
+print stop
+print selection
 
 for b in representation:
 	for c in crossover:
@@ -42,6 +52,6 @@ for b in representation:
 					for se in selection:
 						os.system("gcc -o maxcut " + common + " " + b + " " + " " + c + " " + m + " " + r + " " + st + " " + se)
 						
-						for num in range(3):
-							file_prefix = new_dir + "/" + g.split(".")[0] + "_binary_" + c.split("_")[0] + "_" + m.split("_")[0] + "_" + r.split("_")[0] + "_" + st.split("_")[0] + "_" + se.split("_")[0] + "_" + "S0.7_M0.1_N1000_K100_P00.6_P4_KF4_T0.7_C0.5"
+						for num in range(20, 21):
+							file_prefix = new_dir + "/" + g.split(".")[0] + "_binary_" + c.split("_")[0] + "_" + m.split("_")[0] + "_" + r.split("_")[0] + "_" + st.split("_")[0] + "_" + se.split("_")[0] + "_" + "S0.7_M0.12_N1000_K800_P00.6_P4_KF4_T0.7_C0.5"
 							os.system("./maxcut " + graph + " " + file_prefix + "_" + str(num) + ".res " + file_prefix + "_" + str(num) + ".csv")

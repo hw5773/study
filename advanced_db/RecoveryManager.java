@@ -11,7 +11,7 @@ import java.util.LinkedList;
 
 public class RecoveryManager {
 
-	String 				recoveryFileName	=	"D:\\AdvancedDB\\hw2\\recovery.txt";
+	String 				recoveryFileName	=	"recovery.txt";
 	DBConnector			db;
 	LogManager			lm					=	null;
 	LinkedList<String>	undoList			=	new LinkedList<String>();

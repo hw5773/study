@@ -9,7 +9,7 @@ import java.util.LinkedList;
 
 public class LogManager {
 	
-	String 						logFileName		=	"D:\\AdvancedDB\\hw2\\prj2.log";
+	String 						logFileName		=	"prj2.log";
 	ArrayList<String>			logBuffer		=	new ArrayList<String>();
 	BufferedWriter				logFile			=	null;
 	TransactionProcessor		tp				=	null;

@@ -13,9 +13,6 @@ int main(int argc, char *argv[])
 		exit(-1);
 	}
 	
-	printf("N: %d\n", N);
-	printf("K: %d\n", K);
-
 	// Need to remove when submitting.
 	log_file = fopen(argv[3], "w");
 	fprintf(log_file, "rate, elasped time (s), max val, avg val\n");
