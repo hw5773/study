@@ -27,14 +27,15 @@ graph["maxcut500"]["edge"] = 4990
 
 out_file.write("number, avg elapsed time (s), avg max val, avg rate, max val1, rate 1, max val2, rate 2, max val 3, rate 3, graph, nodes, edges, selection, crossover, mutation, replacement, N, K, S_RATE, M_THRE, P0, POINTS, K_FIT, T, C\n")
 
-for root, dirs, files in os.walk("../hw1/"):
+csv_files = []
+
+for root, dirs, files in os.walk("../hw2/"):
 	for directory in dirs:
-		if "maxcut" in directory:
+		if "_local" in directory:
 			d.append(directory)
 
 for directory in d:
-	for r, dirs, files in os.walk("../hw1/" + directory):
-		csv_files = []
+	for r, dirs, files in os.walk("../hw2/" + directory):
 		prefix = ""
 
 		for f in files:
@@ -44,6 +45,8 @@ for directory in d:
 				csv_files.append("%s/%s"%(r,f))
 
 		csv_files.sort()
+
+print csv_files
 
 r = []		# rate list
 et = []		# elapsed time list
@@ -77,8 +80,7 @@ for csv in csv_files:
 		et = []
 		mv = []
 
-	f = open(csv, "r")
-	print f
+	print prefix_lst
 
 	for l in f:
 		pass
