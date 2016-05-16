@@ -21,12 +21,12 @@ int selection(int *p1, int *p2)
 
 	for (i=0; i<2; i++)
 	{
-		point = rand() % (int)sum_of_fitness;
+		point = rand() % (int)(sum_of_fitness*1000000);
 		sum = 0;
 		
 		for (j=1; j<=N; j++)
 		{
-			sum += sfitness[j];
+			sum += sfitness[j]*1000000;
 			if ((double)point < sum)
 			{
 				num[i] = j;
@@ -74,6 +74,7 @@ double calc_fitness()
 	{
 		for (j=1; j<=N; j++)
 		{
+			count = 0;
 			if (i==j) continue;
 			
 			for (k=1; k<=SIZE; k++) // calculate the hamming distance

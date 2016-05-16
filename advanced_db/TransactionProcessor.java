@@ -27,8 +27,8 @@ public class TransactionProcessor {
 		this.rm						=	prj.getRecoveryManager();
 		this.activeTransactions		=	new LinkedList<Transaction>();
 		///// Need to be modified.
-		this.transactionFileName	= 	"D:\\AdvancedDB\\hw2\\" + transactionFileName;
-		this.searchFileName			=	"D:\\AdvancedDB\\hw2\\search.txt";
+		this.transactionFileName	= 	transactionFileName;
+		this.searchFileName			=	"search.txt";
 
 		try {
 			transactionFile			= 	new BufferedReader(new InputStreamReader(new FileInputStream(new File(this.transactionFileName))));

@@ -8,7 +8,7 @@
 #define S_RATE		0.7
 #define M_THRE		0.1
 #define N			1000
-#define K			10
+#define K			100
 #define P0			0.7
 
 #define POINTS		4
