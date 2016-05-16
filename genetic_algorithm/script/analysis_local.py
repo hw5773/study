@@ -1,9 +1,10 @@
 import os
 import numpy
+import sys 
 
 d = []
-out_file = open("local100.csv", "w")
-out_file2 = open("local_max100.csv", "w")
+out_file = open(sys.argv[1] + ".csv", "w")
+out_file2 = open(sys.argv[1] + "_max.csv", "w")
 
 num = 0
 S_RATE = 0.7
@@ -33,7 +34,7 @@ csv_files = []
 
 for root, dirs, files in os.walk("../hw2/"):
 	for directory in dirs:
-		if "maxcut100_local" in directory:
+		if sys.argv[1] in directory:
 			d.append(directory)
 
 for directory in d:

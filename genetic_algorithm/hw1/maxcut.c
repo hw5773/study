@@ -13,9 +13,6 @@ int main(int argc, char *argv[])
 		exit(-1);
 	}
 	
-	printf("N: %d\n", N);
-	printf("K: %d\n", K);
-
 	// Need to remove when submitting.
 	log_file = fopen(argv[3], "w");
 	fprintf(log_file, "rate, elasped time (s), max val, avg val\n");
@@ -73,12 +70,7 @@ int main(int argc, char *argv[])
 	fclose(in);
 	fclose(out);
 
-<<<<<<< HEAD
-	printf("N: %d, K: %d, S_RATE: %lf, M_THRE: %lf, P0: %lf, POINTS: %d, K_FIT: %d, T: %lf\n", N, K, S_RATE, M_THRE, P0, POINTS, K_FIT, T);
-=======
- 	printf("N: %d, K: %d, S_RATE: %lf, M_THRE: %lf, P0: %lf, POINTS: %d, K_FIT: %d, T: %lf\n", N,     K, S_RATE, M_THRE, P0, POINTS, K_FIT, T);
-
->>>>>>> 0d2cc866145a41bfeff6639cce503075974fb702
+ 	printf("N: %d, K: %d, S_RATE: %lf, M_THRE: %lf, P0: %lf, POINTS: %d, K_FIT: %d, K_TOR: %d, T: %lf\n", N, K, S_RATE, M_THRE, P0, POINTS, K_FIT, K_TOR, T);
 
 	return 0;
 }

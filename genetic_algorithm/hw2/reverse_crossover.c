@@ -46,7 +46,7 @@ int crossover(int i, int p1, int p2)
 			if (t2 <= C)
 				memcpy(&offsprings[i]->ch[n], &population[p2]->ch[ONE_POINT-n+1], sizeof(unsigned char));
 			else
-				memcpy(&offsprings[i]->ch[n], &population[p1]->ch[n], sizeof(unsigned char));
+				memcpy(&offsprings[i]->ch[n], &population[p2]->ch[n], sizeof(unsigned char));
 		}
 	}
 
