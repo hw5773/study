@@ -7,8 +7,8 @@
 #define SIZE 		num_of_vertex
 #define S_RATE		0.7
 #define M_THRE		0.1
-#define N			10
-#define K			1
+#define N			1000
+#define K			10
 #define P0			0.6
 
 #define POINTS		4

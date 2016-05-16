@@ -45,27 +45,27 @@ int main(int argc, char *argv[])
 
 	int p1, p2;
 
-//	while (!(stop_condition()))
-//	{
+	while (!(stop_condition()))
+	{
 		for (i=1; i<=K; i++)
 		{
 			selection(&p1, &p2);
 			crossover(i, p1, p2);
 			mutation(i);
-			local_optimization(i, edge);
+//			local_optimization(i, edge);
 		}
 
 		replacement(edge);
 
 		sort_population();
-//	}
-/*
+	}
+
 	for (i=1; i<=SIZE; i++)
 	{
 		if (population[N]->ch[i] == 1)
 			fprintf(out, "%d ", i);
 	}
-*/
+
 	free_population();
 
 	fclose(in);
