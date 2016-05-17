@@ -51,6 +51,8 @@ et = []		# elapsed time list
 mv = [] 	# max val list
 m = 0
 t = 0
+mlist = []
+tlist = []
 
 for csv in csv_files:
 	tmp_lst = (csv.split("/")[-1]).split("_")
@@ -60,7 +62,7 @@ for csv in csv_files:
 
 		if start:
 			num = num + 1
-			line = "%s, %d, %d\n" % (sys.argv[1], m, t)
+			line = "%s, %.2lf, %.2lf, %.2lf, %.2lf, %.2lf\n" % (sys.argv[1], numpy.mean(mlist), numpy.mean(tlist), max(tlist), min(tlist), numpy.std(tlist))
 			out_file.write(line)
 
 		start = True
@@ -82,9 +84,12 @@ for csv in csv_files:
 			m = int(last[2])
 			t = int(last[1])
 
+	mlist.append(m)
+	tlist.append(t)
+
 	f.close()
 
 num = num + 1
-line = "%s, %d, %d\n" % (sys.argv[1], m, t)
+line = "%s, %.2lf, %.2lf, %.2lf, %.2lf, %.2lf\n" % (sys.argv[1], numpy.mean(mlist), numpy.mean(tlist), max(tlist), min(tlist), numpy.std(tlist))
 out_file.write(line)
 out_file.close()

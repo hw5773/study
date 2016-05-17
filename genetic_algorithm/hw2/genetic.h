@@ -8,13 +8,18 @@
 #define S_RATE		0.7
 #define M_THRE		0.1
 #define N			1000
+<<<<<<< HEAD
 #define K			10
 #define P0			0.6
+=======
+#define K			100
+#define P0			0.7
+>>>>>>> 5644e96b480a7edb4c6126ddef236dffb5841e7d
 
 #define POINTS		4
 #define K_FIT		4	// the order of the fitness btw the best and the worst
 #define K_TOR		2
-#define T			0.7	// the threshold of the tornament selection
+#define T			0.6	// the threshold of the tornament selection
 #define C			0.5 // the threshold of the reverse selection
 
 FILE 			*in, *out;
@@ -44,7 +49,7 @@ int 			stop_condition(void);
 // p1, p2 are the index of the parents in the population
 // i is the index of the offspring in the offsprings
 int				selection(int *p1, int *p2); 
-int 			crossover(int i, int p1, int p2);
+//int 			crossover(int i, int p1, int p2);
 int 			mutation(int i);
 int 			replacement(int edge[][SIZE+1]);
 int				init_crossover(void);

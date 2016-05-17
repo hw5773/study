@@ -52,7 +52,10 @@ int main(int argc, char *argv[])
 			selection(&p1, &p2);
 			crossover(i, p1, p2);
 			mutation(i);
+<<<<<<< HEAD
 //			local_optimization(i, edge);
+=======
+>>>>>>> 5644e96b480a7edb4c6126ddef236dffb5841e7d
 		}
 
 		replacement(edge);

@@ -20,11 +20,6 @@ int crossover(int i, int p1, int p2)
 
 	init_chromosome(&offsprings[i]);
 
-	printf("p1: \n");
-	print_chromosome(population[p1]);
-	printf("p2: \n");
-	print_chromosome(population[p2]);
-
 	if (population[p1]->cost < population[p2]->cost)
 	{
 		offsprings[i]->p1 = p1;
@@ -44,15 +39,12 @@ int crossover(int i, int p1, int p2)
 
 	for (n=1; n<=SIZE; n++)
 	{
-		p = ((double) rand()) / INT_MAX;
+		p = ((double) rand()) / RAND_MAX;
 		if (p < P0)
 			offsprings[i]->ch[n] = population[offsprings[i]->p2]->ch[n];
 		else
 			offsprings[i]->ch[n] = population[offsprings[i]->p1]->ch[n];
 	}
-
-	printf("offsprings: \n");
-	print_chromosome(offsprings[i]);
 
 	return 1;
 }
