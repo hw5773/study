@@ -9,7 +9,7 @@
 #define M_THRE		0.1
 #define N			100
 #define K			1
-#define P0			0.7
+#define P0			0.6
 
 #define POINTS		4
 #define K_FIT		4	// the order of the fitness btw the best and the worst
