@@ -6,7 +6,7 @@
 int init_chromosome(Chromosome **c)
 {
 	*c = (Chromosome *)malloc(sizeof(Chromosome));
-	(*c)->ch = (unsigned char *)malloc(SIZE+1);
+	(*c)->ch = (unsigned char *)malloc((SIZE+1)*sizeof(unsigned char));
 	(*c)->size = SIZE;
 
 	int i=0;

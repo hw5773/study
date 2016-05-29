@@ -3,6 +3,7 @@
 int num_of_vertex, num_of_edge;
 unsigned long start_time;
 FILE *log_file;
+int generation = 0;
 
 int main(int argc, char *argv[])
 {
@@ -47,6 +48,7 @@ int main(int argc, char *argv[])
 
 	while (!(stop_condition()))
 	{
+		generation++;
 		for (i=1; i<=K; i++)
 		{
 			selection(&p1, &p2);
@@ -65,13 +67,14 @@ int main(int argc, char *argv[])
 			fprintf(out, "%d ", i);
 	}
 
+	printf("max: \n");
+	print_chromosome(population[N]);
 	free_population();
 
 	fclose(in);
 	fclose(out);
 
- 	printf("N: %d, K: %d, S_RATE: %lf, M_THRE: %lf, P0: %lf, POINTS: %d, K_FIT: %d, T: %lf\n", N,     K, S_RATE, M_THRE, P0, POINTS, K_FIT, T);
-
+ 	printf("N: %d, K: %d, S_RATE: %lf, M_THRE: %lf, P0: %lf, POINTS: %d, K_FIT: %d, T: %lf\n", N, K, S_RATE, M_THRE, P0, POINTS, K_FIT, T);
 
 	return 0;
 }

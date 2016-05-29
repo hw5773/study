@@ -7,8 +7,8 @@
 #define SIZE 		num_of_vertex
 #define S_RATE		0.7
 #define M_THRE		0.1
-#define N			1000
-#define K			100
+#define N			100
+#define K			1
 #define P0			0.7
 
 #define POINTS		4
@@ -23,6 +23,7 @@ extern int 		num_of_edge;
 extern unsigned long	start_time;
 
 extern FILE		*log_file; //temporal file for the logging.
+extern int		generation;
 
 
 typedef struct 	chromosome_t
@@ -35,6 +36,7 @@ typedef struct 	chromosome_t
 
 Chromosome 		*population[N+1];	// The array of the populations
 Chromosome 		*offsprings[K+1];	// The array of the offsprings
+extern Chromosome		*max;
 
 // if the stop condition is satisfied then returns 1, if not, returns 0
 int 			stop_condition(void); 

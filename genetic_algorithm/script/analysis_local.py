@@ -52,6 +52,7 @@ for directory in d:
 r = []		# rate list
 et = []		# elapsed time list
 mv = [] 	# max val list
+g = []		# generation list
 #prefix = ""
 #prefix_lst = []
 
@@ -83,12 +84,15 @@ for csv in csv_files:
 
 	f = open(csv, "r")
 
+	loop = 0
 	for l in f:
+		loop = loop + 1
 		pass
 	last = l.split(",")
 	r.append(float(last[0]))
 	et.append(int(last[1]))
 	mv.append(int(last[2]))
+	g.append(loop)
 
 	f.close()
 
@@ -104,12 +108,15 @@ out_file.write(line)
 
 out_file.close()
 
-out_file2.write("num, max val\n")
+out_file2.write("num, max val, generation\n")
 
 n = 0
 
 for v in mv:
+	generation = g[n]
 	n = n+1
-	out_file2.write("%d, %d\n" % (n, v))
+	out_file2.write("%d, %d, %d\n" % (n, v, generation))
+
+out_file2.write("%.2lf\n" % (1.0*sum(g)/len(g)))
 
 out_file2.close()

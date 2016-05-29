@@ -50,7 +50,9 @@ int local_optimization(int n, int edge[][SIZE+1])
 		}
 	}
 
-	free_chromosome(c);
+	free_chromosome(offsprings[n]);
+	offsprings[n] = c;
+//	free_chromosome(c);
 
 	return 1;
 }

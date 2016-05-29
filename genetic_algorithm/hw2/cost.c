@@ -15,7 +15,7 @@ int init_cost(int edge[][SIZE+1])
 int calc_cost(Chromosome *c, int edge[][SIZE+1])
 {
 	int i, j, result = 0;
-	
+
 	for (i=1; i<=SIZE; i++)
 	{
 		for (j=i+1; j<=SIZE; j++)
