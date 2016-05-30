@@ -4,31 +4,22 @@ HEADER=genetic.h
 SRC=maxcut.c \
 	hex_chromosome.c \
 	order_based_selection.c \
-	pmx_crossover.c \
+	order_crossover.c \
 	cost.c \
-	general_mutation.c \
+	increase_mutation.c \
 	general_replacement.c \
 	rate_stop_condition.c \
 	local_optimization.c \
 	common.c
 OBJ=hex_chromosome.o \
 	order_based_selection.o \
-	pmx_crossover.o \
+	order_crossover.o \
 	cost.o \
-	general_mutation.o \
+	increase_mutation.o \
 	general_replacement.o \
 	rate_stop_condition.o \
 	local_optimization.o \
 	common.o
-SRC2=hex_chromosome.c \
-	order_based_selection.c \
-	pmx_crossover.c \
-	cost.c \
-	general_mutation.c \
-	general_replacement.c \
-	rate_stop_condition.c \
-	local_optimization.c \
-	common.c
 ORIJINAL=maxcut.c
 TEST=maxcut_test.c
 LOCAL=maxcut_local.c

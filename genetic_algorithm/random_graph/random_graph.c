@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
-#define MAX_VAL 100
+#define MAX_VAL 5
 
 FILE *out;
 

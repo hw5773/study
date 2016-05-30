@@ -17,9 +17,6 @@ int init_chromosome(Chromosome **c)
 
 	init_permutation((*c)->node);
 
-	for (i=0; i<=SIZE; i++)
-		(*c)->ch[i] = 0;
-
 	for (i=1; i<=SIZE; i++) // zero base
 		(*c)->ch[i] = rand()%2;
 
@@ -31,6 +28,7 @@ int init_chromosome(Chromosome **c)
 
 int free_chromosome(Chromosome *c)
 {
+	free(c->node);
 	free(c->ch);
 	free(c);
 }

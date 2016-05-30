@@ -8,7 +8,7 @@
 #define S_RATE		0.7
 #define M_THRE		0.03
 #define N			100
-#define K			10
+#define K			3
 #define P0			0.51
 
 #define POINTS		4
@@ -50,6 +50,7 @@ int 			crossover(int i, int p1, int p2);
 int 			mutation(int i);
 int 			replacement(int edge[][SIZE+1]);
 int				init_crossover(void);
+int				local_optimization(int, int[][SIZE+1]);
 
 // the functions related to the representation.
 unsigned long 	get_nano_seconds(void);
