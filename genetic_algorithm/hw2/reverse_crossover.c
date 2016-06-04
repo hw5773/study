@@ -37,18 +37,32 @@ int crossover(int i, int p1, int p2)
 		if (n<=ONE_POINT)
 		{
 			if (t1 <= C)
-				memcpy(&offsprings[i]->ch[n], &population[p1]->ch[ONE_POINT-n+1], sizeof(unsigned char));
+			{
+//				memcpy(&offsprings[i]->ch[n], &population[p1]->ch[ONE_POINT-n+1], sizeof(unsigned char));
+				offsprings[i]->ch[n] = population[p1]->ch[ONE_POINT-n+1];
+			}
 			else	
-				memcpy(&offsprings[i]->ch[n], &population[p1]->ch[n], sizeof(unsigned char));
+			{
+//				memcpy(&offsprings[i]->ch[n], &population[p1]->ch[n], sizeof(unsigned char));
+				offsprings[i]->ch[n] = population[p1]->ch[n];
+			}
 		}
 		else
 		{
 			if (t2 <= C)
-				memcpy(&offsprings[i]->ch[n], &population[p2]->ch[ONE_POINT-n+1], sizeof(unsigned char));
+			{
+//				offsprings[i]->ch[n] = population[p2]->ch[ONE_POINT-n+1];
+				offsprings[i]->ch[n] = population[p2]->ch[SIZE-n+1+ONE_POINT];
+			}
 			else
-				memcpy(&offsprings[i]->ch[n], &population[p2]->ch[n], sizeof(unsigned char));
+			{
+//				memcpy(&offsprings[i]->ch[n], &population[p2]->ch[n], sizeof(unsigned char));
+				offsprings[i]->ch[n] = population[p2]->ch[n];
+			}
 		}
 	}
+
+	print_chromosome(offsprings[i]);
 
 	return 1;
 }

@@ -8,7 +8,7 @@ inc = float(sys.argv[3])
 m = start
 
 while m < end:
-	os.system("./maxcut_local_test ../graph/maxcut500.txt local_test/mutation" + str(m) + ".res local_test/mutation" + str(m) +".csv " + str(m))
+	os.system("./maxcut_local_test ../graph/maxcut500.txt local_test2/mutation" + str(m) + ".res local_test2/mutation" + str(m) +".csv " + str(m))
 	m = m + inc
 
 

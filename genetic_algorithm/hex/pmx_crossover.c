@@ -57,15 +57,6 @@ int crossover(int i, int p1, int p2)
 		s1 = p2; s2 = p1;
 	}
 
-/////////
-//	printf("c1: %d\n", c1);
-//	printf("c2: %d\n", c2);
-//	printf("s1: ");
-//	print_chromosome(population[s1]);
-//	printf("s2: ");
-//	print_chromosome(population[s2]);
-/////////
-
 	for (n=1; n<=SIZE; n++)
 	{
 		if (n < c1 || n > c2)
@@ -103,9 +94,6 @@ int crossover(int i, int p1, int p2)
 			}
 		}
 	}
-
-//	printf("off: ");
-//	print_chromosome(offsprings[i]);
 
 	return 1;
 }

@@ -7,14 +7,9 @@
 #define SIZE 		num_of_vertex
 #define S_RATE		0.7
 #define M_THRE		0.1
-#define N			1000
-<<<<<<< HEAD
-#define K			10
+#define N			20
+#define K			5
 #define P0			0.6
-=======
-#define K			100
-#define P0			0.7
->>>>>>> 5644e96b480a7edb4c6126ddef236dffb5841e7d
 
 #define POINTS		4
 #define K_FIT		4	// the order of the fitness btw the best and the worst
@@ -28,6 +23,7 @@ extern int 		num_of_edge;
 extern unsigned long	start_time;
 
 extern FILE		*log_file; //temporal file for the logging.
+extern int		generation;
 
 
 typedef struct 	chromosome_t
@@ -40,6 +36,7 @@ typedef struct 	chromosome_t
 
 Chromosome 		*population[N+1];	// The array of the populations
 Chromosome 		*offsprings[K+1];	// The array of the offsprings
+extern Chromosome		*max;
 
 // if the stop condition is satisfied then returns 1, if not, returns 0
 int 			stop_condition(void); 

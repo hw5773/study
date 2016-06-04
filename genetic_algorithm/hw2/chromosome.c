@@ -106,3 +106,17 @@ void print_chromosome(Chromosome *c)
 
 	printf(": %d\n", c->cost);
 }
+
+void print_population()
+{
+	int i;
+
+	printf("population:\n");
+
+	for (i=1; i<=N; i++)
+	{
+		printf("%d ", population[i]->cost);
+		if (i % 40 == 0)
+			printf("\n");
+	}
+}

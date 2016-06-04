@@ -5,7 +5,7 @@
 
 #define GRADIENT 0.001
 #define INIT_THRE 0.05
-#define THRESHOLD 0.15
+#define THRESHOLD 0.30
 
 int mutation(int n)
 {

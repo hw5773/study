@@ -1,0 +1,19 @@
+SNU 4541.664A Program Analysis
+
+Project : EvenOdd analyzer & davinci code analyzer
+
+* How to compile and execute
+  $ make
+  $ ./main.native -eo ./examples/eo_test1.k
+  $ ./main.native -davinci ./examples/dav_test1.k
+  $ ./main.native -print ./examples/eo_test1.k
+
+* TODO
+  + Implement eoAnalyzer function in evenOdd.ml
+  + Impelment daVinciAnalyzer function in davinci.ml
+
+----------
+13 Jeehoon Kang <jhkang@ropas.snu.ac.kr>
+14 Yongho Yoon <yhyoon@ropas.snu.ac.kr>
+15 Sungkeun Cho <skcho@ropas.snu.ac.kr>
+16 Jaeseung Choi <jschoi@ropas.snu.ac.kr>
