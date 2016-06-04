@@ -1,9 +1,9 @@
 COMPILER=gcc
 OUT=maxcut
 HEADER=genetic.h
-SRC=maxcut_local.c \
+SRC=maxcut.c \
 	binary_chromosome.c \
-	tornament_selection.c \
+	min_selection.c \
 	uniform_crossover.c \
 	cost.c \
 	general_mutation.c \
@@ -11,9 +11,9 @@ SRC=maxcut_local.c \
 	rate_stop_condition.c \
 	local_optimization.c \
 	common.c
-OBJ=maxcut_local.o \
+OBJ=maxcut.o \
 	binary_chromosome.o \
-	tornament_selection.o \
+	min_selection.o \
 	uniform_crossover.o \
 	cost.o \
 	general_mutation.o \

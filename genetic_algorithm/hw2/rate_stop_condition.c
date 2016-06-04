@@ -26,7 +26,7 @@ int stop_condition()
 	rate = ((double)count) / N;
 	unsigned long curr_time = get_seconds();
 
-	if (rate >= S_RATE || ((curr_time - start_time) >= 20))
+	if (rate >= S_RATE || ((curr_time - start_time) >= 170))
 	{
 		printf("rate: %lf / elapsed time: %lu / max val: %d / avg val: %.2lf\n", rate, curr_time - start_time, population[N]->cost, avg_val);
 		printf("elapsed time: %lu s\n", curr_time - start_time);

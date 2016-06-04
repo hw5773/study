@@ -3,8 +3,8 @@ OUT=maxcut
 HEADER=genetic.h
 SRC=maxcut.c \
 	hex_chromosome.c \
-	order_based_selection.c \
-	pmx_crossover.c \
+	roulette_selection.c \
+	uniform_crossover.c \
 	cost.c \
 	increase_mutation.c \
 	general_replacement.c \
@@ -12,10 +12,10 @@ SRC=maxcut.c \
 	local_optimization.c \
 	common.c
 OBJ=hex_chromosome.o \
-	order_based_selection.o \
-	pmx_crossover.o \
+	roulette_selection.o \
+	uniform_crossover.o \
 	cost.o \
-	general_mutation.o \
+	increase_mutation.o \
 	general_replacement.o \
 	rate_stop_condition.o \
 	local_optimization.o \
