@@ -3,20 +3,20 @@ OUT=maxcut
 HEADER=genetic.h
 SRC=maxcut.c \
 	binary_chromosome.c \
-	min_selection.c \
+	order_based_selection.c \
 	uniform_crossover.c \
 	cost.c \
-	general_mutation.c \
+	increase_mutation.c \
 	general_replacement.c \
 	rate_stop_condition.c \
 	local_optimization.c \
 	common.c
 OBJ=maxcut.o \
 	binary_chromosome.o \
-	min_selection.o \
+	order_based_selection.o \
 	uniform_crossover.o \
 	cost.o \
-	general_mutation.o \
+	increase_mutation.o \
 	general_replacement.o \
 	rate_stop_condition.o \
 	local_optimization.o \

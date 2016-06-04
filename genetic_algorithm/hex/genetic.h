@@ -50,7 +50,11 @@ int 			crossover(int i, int p1, int p2);
 int 			mutation(int i);
 int 			replacement(int edge[][SIZE+1]);
 int				init_crossover(void);
+<<<<<<< HEAD
 int				local_optimization(int, int edge[][SIZE+1]);
+=======
+int				local_optimization(int, int[][SIZE+1]);
+>>>>>>> ecb25b98a91bc5216d182e478c684f362b044526
 
 // the functions related to the representation.
 unsigned long 	get_nano_seconds(void);

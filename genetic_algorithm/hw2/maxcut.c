@@ -67,8 +67,6 @@ int main(int argc, char *argv[])
 			fprintf(out, "%d ", i);
 	}
 
-	printf("max: \n");
-	print_chromosome(population[N]);
 	free_population();
 
 	fclose(in);

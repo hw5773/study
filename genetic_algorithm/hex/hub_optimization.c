@@ -78,7 +78,7 @@ int	init_permutation(int *permutation, int edge[][SIZE+1])
 		{
 			if (permutation[j] == 0)
 				permutation[j] = i;
-			else if (weight[permutation[j]] < weight[i])
+			else if (weight[permutation[j]] >= weight[i])
 			{
 				for (k=i-1; k>=j; k--)
 					permutation[k+1] = permutation[k];
