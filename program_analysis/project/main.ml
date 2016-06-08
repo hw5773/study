@@ -31,8 +31,12 @@ let main () =
 	  print_endline "(check graph.png file)"
   )
   else if !opt_eo then (
+	let test = EvenOdd.test (all_nodes pgm_graph) in
+	print_endline test
+(*
     let result = EvenOdd.eoAnalyzer pgm_graph in
     print_endline (EvenOdd.result_to_str result)
+*)
   )
   else if !opt_davinci then (
     let result = Davinci.daVinciAnalyzer pgm_graph in

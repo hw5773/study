@@ -43,9 +43,6 @@ int local_optimization(int n, int edge[][SIZE+1])
 
 			if (c->cost > offsprings[n]->cost)
 			{
-//				printf("c->cost: %d\n", c->cost);
-//				printf("offsprings[n]->cost: %d\n", offsprings[n]->cost);
-
 				offsprings[n]->ch[permutation[i]] = c->ch[permutation[i]];
 				improved = 1;
 				calc_cost(offsprings[n], edge);
@@ -54,9 +51,6 @@ int local_optimization(int n, int edge[][SIZE+1])
 				c->ch[permutation[i]] = (1 - c->ch[permutation[i]]) % 2;
 		}
 	}
-
-	free_chromosome(offsprings[n]);
-	offsprings[n] = c;
 
 	return 1;
 }

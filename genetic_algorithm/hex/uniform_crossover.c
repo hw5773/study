@@ -42,12 +42,10 @@ int crossover(int i, int p1, int p2)
 		p = ((double) rand()) / RAND_MAX;
 		if (p < P0)
 		{
-			offsprings[i]->node[n] = population[offsprings[i]->p2]->node[n];
 			offsprings[i]->ch[n] = population[offsprings[i]->p2]->ch[n];
 		}
 		else
 		{
-			offsprings[i]->node[n] = population[offsprings[i]->p1]->node[n];
 			offsprings[i]->ch[n] = population[offsprings[i]->p1]->ch[n];
 		}
 	}

@@ -8,7 +8,7 @@
 #define S_RATE		0.7
 #define M_THRE		0.03
 #define N			20
-#define K			5
+#define K			4
 #define P0			0.51
 
 #define POINTS		4
@@ -16,6 +16,8 @@
 #define K_TOR		2
 #define T			0.6	// the threshold of the tornament selection
 #define C			0.5 // the threshold of the reverse selection
+
+#define STOP_TIME	170
 
 FILE 			*in, *out;
 extern int 		num_of_vertex;
@@ -46,7 +48,7 @@ int 			stop_condition(void);
 // p1, p2 are the index of the parents in the population
 // i is the index of the offspring in the offsprings
 int				selection(int *p1, int *p2); 
-int 			crossover(int i, int p1, int p2);
+int 			crossover(int i, int p1, int p2, int edge[][SIZE+1]);
 int 			mutation(int i);
 int 			replacement(int edge[][SIZE+1]);
 int				init_crossover(void);

@@ -8,7 +8,7 @@ SRC=maxcut.c \
 	cost.c \
 	increase_mutation.c \
 	general_replacement.c \
-	rate_stop_condition.c \
+	bunch_stop_condition.c \
 	local_optimization.c \
 	common.c
 OBJ=hex_chromosome.o \
@@ -17,7 +17,7 @@ OBJ=hex_chromosome.o \
 	cost.o \
 	increase_mutation.o \
 	general_replacement.o \
-	rate_stop_condition.o \
+	bunch_stop_condition.o \
 	local_optimization.o \
 	common.o
 ORIJINAL=maxcut.c

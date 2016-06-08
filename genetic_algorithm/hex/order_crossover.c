@@ -10,7 +10,7 @@ int init_crossover(void)
 
 // i: the index number of the offspring
 // p1, p2: the index number of the parents
-int crossover(int i, int p1, int p2)
+int crossover(int i, int p1, int p2, int edge[][SIZE+1])
 {
 	int n, m;
 	unsigned long seed = get_nano_seconds();

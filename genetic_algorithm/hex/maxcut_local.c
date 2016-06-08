@@ -50,13 +50,12 @@ int main(int argc, char *argv[])
 		for (i=1; i<=K; i++)
 		{
 			selection(&p1, &p2);
-			crossover(i, p1, p2);
+			crossover(i, p1, p2, edge);
 			mutation(i);
 			local_optimization(i, edge);
 		}
 
 		replacement(edge);
-
 		sort_population();
 	}
 

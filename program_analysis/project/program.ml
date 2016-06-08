@@ -3,29 +3,29 @@
  * Definition of original program
  *)
 
-type var = string
+type var = string 			(* var라는 type을 string으로 정의 *)
 module Var =
 struct
-  type t = string
+  type t = string			(* 모듈 Var는 string의 type을 가지고 compare는 compare? *)
   let compare = compare
 end
   
 type cmd = 
-  | ASSIGN of var * exp
-  | PTRASSIGN of var * exp
-  | SEQ of cmd * cmd
-  | IF of exp * cmd * cmd
-  | REPEAT of cmd * exp
+  | ASSIGN of var * exp		(* x := E *)
+  | PTRASSIGN of var * exp	(* *x := E *)
+  | SEQ of cmd * cmd		(* C; C *)
+  | IF of exp * cmd * cmd	(* if E C C *)
+  | REPEAT of cmd * exp		(* repeat C E *)
 and exp =
-  | NUM of int
-  | ADD of exp * exp
-  | NEG of exp
-  | VAR of var
-  | DEREF of var
-  | LOC of var
-  | READINT
+  | NUM of int				(* n *)
+  | ADD of exp * exp		(* E + E *)
+  | NEG of exp				(* ~E *)
+  | VAR of var				(* x *)
+  | DEREF of var			(* *x *)
+  | LOC of var				(* &x *)
+  | READINT					(* readInt *)
 
-type program = cmd
+type program = cmd			(* program 타입은 cmd *)
 
 let rec exp_to_str = function
   | NUM i -> string_of_int i

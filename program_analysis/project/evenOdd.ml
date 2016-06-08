@@ -41,16 +41,16 @@ let result_to_str : result -> string = fun res ->
     ) res ""
 
 (* TODO: you have to implement from here *)
+(*
+let print_cmd: node -> unit = fun n ->
+	let cmd_str = command_to_str n in
+	Printf.sprintf "%s\n" cmd_str
+*)
+let rec test: G.vertex list -> string = fun vlist ->
+	match vlist with
+	| [] -> ""
+	| h::t -> String.concat "\n" (List.append [(test t)] [(String.concat ") " ((string_of_int (Node.get_id h))::[(command_to_str (Node.get_command h))]))])
+(*	| h::t -> String.concat " " ((command_to_str (Node.get_command h))::[(test t)]) *)
 
 let eoAnalyzer: pgm_graph -> result = fun pgm_g ->
-  failwith "Unimplemented"
-  (*
-    If your analyzer concluded that 'x' is (even, {}) and 'y' is (nan,{p}), then
-    you can make your result as follow.
-
-    let res = VarMap.empty in
-    let res = VarMap.add "x" (EVEN, VarSet.empty) res in
-    let res = VarMap.add "y" (NONE, VarSet.add "p" VarSet.empty) res in
-    res
-
-  *)
+	let res = VarMap.empty in let res = VarMap.add "y" (EVEN, VarSet.empty) res in res

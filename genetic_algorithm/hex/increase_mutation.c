@@ -13,7 +13,9 @@ int mutation(int n)
 	unsigned long curr_time = get_seconds();
 	srand(seed);
 	double m_thre = 0.0, m_prob = 0.0; 
-	int i = 0;
+	int i = 0, swp = 0, tmp;
+	unsigned char t;
+
 	m_thre = GRADIENT * (curr_time - start_time) + INIT_THRE;
 
 	if (m_thre > THRESHOLD)
@@ -22,10 +24,19 @@ int mutation(int n)
 	for (i=1; i<=SIZE; i++)
 	{
 		m_prob = (double)rand() / RAND_MAX;
+		swp = rand() % SIZE + 1;
 
-		if (m_prob < m_thre)
+		if (m_prob < M_THRE)
 		{
-			offsprings[n]->ch[i] = (unsigned char) rand() % 2;
+			tmp = offsprings[n]->node[i];
+			offsprings[n]->node[i] = offsprings[n]->node[swp];
+			offsprings[n]->node[swp] = tmp;
+
+			t = offsprings[n]->ch[i];
+			offsprings[n]->ch[i] = offsprings[n]->ch[swp];
+			offsprings[n]->ch[swp] = t;
+
+			offsprings[n]->ch[i] = rand() % 2;
 		}
 	}
 
