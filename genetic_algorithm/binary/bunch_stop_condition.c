@@ -3,7 +3,7 @@
 #include "genetic.h"
 #endif
 
-int stop_condition()
+int stop_condition(int edge[][SIZE+1])
 {
 	int i=0, max_val=0, count=0;
 	double rate = 0.0, avg_val = 0.0;
@@ -39,11 +39,19 @@ int stop_condition()
 		printf("rate: %lf / elapsed time: %lu s / curr max val: %d / avg val: %.2lf\n", rate, curr_time - start_time, population[N]->cost, avg_val);
 		printf("replace all the generation except the maximum\n");
 		Chromosome *max;
-		init_chromosome(&max);
-		memcpy(max, population[N], sizeof(Chromosome));
+		init_chromosome(&max, edge);
+
+		for (i=1; i<=SIZE; i++)
+		{
+			max->ch[i] = population[N]->ch[i];
+		}
+		max->cost = population[N]->cost;
 		free_population();
-		init_population();
+		init_population(edge);
+		init_cost(edge);
+
 		population[N] = max;	
+
 		fprintf(log_file, "%lf, %lu, %d, %.2lf\n", rate, curr_time - start_time, population[N]->cost, avg_val);
 		return 0;
 	}

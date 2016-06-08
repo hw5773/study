@@ -27,5 +27,7 @@ int calc_cost(Chromosome *c, int edge[][SIZE+1])
 		}
 	}
 
+	c->cost = result;
+
 	return result;
 }

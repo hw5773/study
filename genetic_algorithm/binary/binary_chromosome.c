@@ -3,7 +3,7 @@
 #include "genetic.h"
 #endif
 
-int init_chromosome(Chromosome **c)
+int init_chromosome(Chromosome **c, int edge[][SIZE+1])
 {
 	*c = (Chromosome *)malloc(sizeof(Chromosome));
 	(*c)->ch = (unsigned char *)malloc((SIZE+1)*sizeof(unsigned char));
@@ -19,6 +19,8 @@ int init_chromosome(Chromosome **c)
 	(*c)->p1 = 0;
 	(*c)->p2 = 0;
 
+	calc_cost(*c, edge);
+
 	return 1;
 }
 
@@ -28,12 +30,12 @@ int free_chromosome(Chromosome *c)
 	free(c);
 }
 
-int init_population(void)
+int init_population(int edge[][SIZE+1])
 {
 	int i=1, j=0;
 
 	for (i=1; i<=N; i++) // first chromosome is in the index 1.
-		init_chromosome(&population[i]);
+		init_chromosome(&population[i], edge);
 
 	return 1;
 }
@@ -51,12 +53,12 @@ int free_population(void)
 	return 1;
 }
 
-int init_offsprings(void)
+int init_offsprings(int edge[][SIZE+1])
 {
 	int i=1;
 	
 	for (i=1; i<=K; i++)
-		init_chromosome(&offsprings[i]);
+		init_chromosome(&offsprings[i], edge);
 
 	return 1;
 }

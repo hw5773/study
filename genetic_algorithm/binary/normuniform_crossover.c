@@ -12,13 +12,17 @@ int init_crossover(void)
 // p1, p2: the index number of the parents
 int crossover(int i, int p1, int p2, int edge[][SIZE+1])
 {
-	int n;
+	int n, cost1, cost2;
+	Chromosome *t1, *t2;
 	unsigned long seed = get_nano_seconds();
 	srand(seed);
 
 	double p = 0.0;
 
-	init_chromosome(&offsprings[i]);
+	init_chromosome(&offsprings[i], edge);
+	init_chromosome(&t1, edge);
+	init_chromosome(&t2, edge);
+	
 
 	if (population[p1]->cost < population[p2]->cost)
 	{
@@ -41,10 +45,24 @@ int crossover(int i, int p1, int p2, int edge[][SIZE+1])
 	{
 		p = ((double) rand()) / RAND_MAX;
 		if (p < P0)
-			offsprings[i]->ch[n] = population[offsprings[i]->p2]->ch[n];
+		{
+			t1->ch[n] = population[offsprings[i]->p2]->ch[n];
+			t2->ch[n] = population[offsprings[i]->p2]->ch[n] % 2;
+		}
 		else
-			offsprings[i]->ch[n] = population[offsprings[i]->p1]->ch[n];
+		{
+			t1->ch[n] = population[offsprings[i]->p1]->ch[n];
+			t2->ch[n] = 1 - population[offsprings[i]->p1]->ch[n] % 2;
+		}
 	}
+
+	cost1 = calc_cost(t1, edge);
+	cost2 = calc_cost(t2, edge);
+
+	if (cost1 < cost2)
+		offsprings[i]->ch = t2->ch;
+	else
+		offsprings[i]->ch = t1->ch;
 
 	return 1;
 }

@@ -37,20 +37,20 @@ int main(int argc, char *argv[])
 		edge[v2][v1] = w;
 	}
 	
-	init_population();
-	init_offsprings();
+	init_population(edge);
+	init_offsprings(edge);
 	init_cost(edge);
 	sort_population();
 	init_crossover();
 
 	int p1, p2;
 
-	while (!(stop_condition()))
+	while (!(stop_condition(edge)))
 	{
 		for (i=1; i<=K; i++)
 		{
 			selection(&p1, &p2);
-			crossover(i, p1, p2);
+			crossover(i, p1, p2, edge);
 			mutation(i);
 			local_optimization(i, edge);
 		}
