@@ -64,9 +64,9 @@ int crossover(int i, int p1, int p2)
 		for (m=point[n]; (m<=SIZE || m<=point[n+1]); m++)
 		{
 			if (m % 2 == 0)
-				memcpy(&offsprings[i]->ch[m], &population[p1]->ch[m], sizeof(unsigned char));
+				offsprings[i]->ch[m] = population[p1]->ch[m];
 			else
-				memcpy(&offsprings[i]->ch[m], &population[p2]->ch[m], sizeof(unsigned char));
+				offsprings[i]->ch[m] = population[p2]->ch[m];
 		}
 	}
 

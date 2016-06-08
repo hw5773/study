@@ -1,7 +1,7 @@
 COMPILER=gcc
 OUT=maxcut
 HEADER=genetic.h
-SRC=maxcut_local.c \
+SRC=maxcut.c \
 	binary_chromosome.c \
 	order_based_selection.c \
 	uniform_crossover.c \
@@ -11,7 +11,7 @@ SRC=maxcut_local.c \
 	bunch_stop_condition.c \
 	local_optimization.c \
 	common.c
-OBJ=maxcut_local.o \
+OBJ=maxcut.o \
 	binary_chromosome.o \
 	order_based_selection.o \
 	uniform_crossover.o \

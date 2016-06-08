@@ -22,8 +22,6 @@ int stop_condition()
 			continue;
 	}
 
-//	print_chromosome(population[N]);
-
 	avg_val = avg_val / N;
 	rate = ((double)count) / N;
 	unsigned long curr_time = get_seconds();

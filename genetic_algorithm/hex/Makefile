@@ -4,7 +4,7 @@ HEADER=genetic.h
 SRC=maxcut.c \
 	hex_chromosome.c \
 	roulette_selection.c \
-	order_crossover.c \
+	uniform_crossover.c \
 	cost.c \
 	increase_mutation.c \
 	general_replacement.c \
@@ -13,7 +13,7 @@ SRC=maxcut.c \
 	common.c
 OBJ=hex_chromosome.o \
 	roulette_selection.o \
-	order_crossover.o \
+	uniform_crossover.o \
 	cost.o \
 	increase_mutation.o \
 	general_replacement.o \
