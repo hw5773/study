@@ -6,9 +6,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-int	init_permutation(int *);
-int	swap(int *, int, int);
-
 int local_optimization(int n, int edge[][SIZE+1])
 {
 	int i, j, k;
@@ -17,7 +14,7 @@ int local_optimization(int n, int edge[][SIZE+1])
 	int permutation[SIZE+1];
 
 	Chromosome *c;
-	init_chromosome(&c);
+	init_chromosome(&c, edge);
 	
 	for (i=0; i<=SIZE; i++)
 	{
@@ -55,30 +52,4 @@ int local_optimization(int n, int edge[][SIZE+1])
 	return 1;
 }
 
-int	init_permutation(int *permutation)
-{
-	int	i, loc = 0;
-	unsigned long	seed	=	get_nano_seconds();
-	srand(seed);
 
-	for (i=0; i<=SIZE; i++)
-		permutation[i] = i;
-
-	for (i=SIZE; i>=2; i--)
-	{
-		loc = rand()%i + 1;
-		if (i != loc)
-			swap(permutation, i, loc);
-	}
-
-	return 1;
-}
-
-int swap(int *permutation, int a, int b)
-{
-	int tmp = permutation[a];
-	permutation[a] = permutation[b];
-	permutation[b] = tmp;
-
-	return 1;
-}
