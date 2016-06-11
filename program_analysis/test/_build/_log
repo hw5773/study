@@ -1,0 +1,10 @@
+### Starting build.
+# Target: sudoku.ml.depends, tags: { extension:ml, file:sudoku.ml, ocaml, ocamldep, quiet }
+/usr/bin/ocamldep.opt -modules sudoku.ml > sudoku.ml.depends
+# Target: sudoku.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:sudoku.cmo, file:sudoku.ml, implem, ocaml, quiet }
+/usr/bin/ocamlc.opt -c -I /home/hwlee/.opam/system/lib/ocamlgraph -o sudoku.cmo sudoku.ml
+# Target: sudoku.cmx, tags: { compile, extension:cmx, extension:ml, file:sudoku.cmx, file:sudoku.ml, implem, native, ocaml, quiet }
+/usr/bin/ocamlopt.opt -c -I /home/hwlee/.opam/system/lib/ocamlgraph -o sudoku.cmx sudoku.ml
+# Target: sudoku.native, tags: { dont_link_with, extension:native, file:sudoku.native, link, native, ocaml, program, quiet }
+/usr/bin/ocamlopt.opt -I /home/hwlee/.opam/system/lib/ocamlgraph /home/hwlee/.opam/system/lib/ocamlgraph/graph.cmxa sudoku.cmx -o sudoku.native
+# Compilation successful.

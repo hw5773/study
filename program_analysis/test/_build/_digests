@@ -1,0 +1,5 @@
+"Rule: ocaml dependencies ml (%=sudoku )": "\004\217\194\025\156h\158\155p\207\132\024Zd\152G"
+"Resource: /home/hwlee/study/program_analysis/test/sudoku.ml": "\177\141T\018Q,D\221\216G\254f(\147\241\198"
+"Rule: ocaml: ml & cmi -> cmx & o (%=sudoku )": "{\208\244\220\229Y\143\018v\255\251\173}&\146\168"
+"Rule: ocaml: ml -> cmo & cmi (%=sudoku )": "\141x<\203A\206\253\028\168\163\197`zF\246\245"
+"Rule: ocaml: cmx* & o* -> native (%=sudoku )": "\197Y0\023\019%O\199\185\221\186\223lE\026{"
