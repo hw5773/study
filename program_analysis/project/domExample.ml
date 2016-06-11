@@ -2,10 +2,10 @@
  * SNU 4541.664A Program Analysis
  * Example code for how to use domain functors
  *)
-
+(*
 open Program
 open DomFunctor
-
+*)
 module Intv 
 =
 struct
