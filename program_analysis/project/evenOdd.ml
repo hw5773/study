@@ -5,8 +5,8 @@
 
 open Program
 open GraphPgm
-open Abstract
-open Function
+open EoAbstract
+open EoFunction
 
 (* Type definitions (Do not modify) *)
 

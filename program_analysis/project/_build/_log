@@ -13,60 +13,18 @@
 /usr/bin/ocamlc.opt -c -I /home/hwlee/.opam/system/lib/ocamlgraph -o graphPgm.cmi graphPgm.mli
 # Target: evenOdd.ml.depends, tags: { extension:ml, file:evenOdd.ml, ocaml, ocamldep, quiet }
 /usr/bin/ocamldep.opt -modules evenOdd.ml > evenOdd.ml.depends
-# Target: abstract.ml.depends, tags: { extension:ml, file:abstract.ml, ocaml, ocamldep, quiet }
-/usr/bin/ocamldep.opt -modules abstract.ml > abstract.ml.depends
+# Target: eoAbstract.ml.depends, tags: { extension:ml, file:eoAbstract.ml, ocaml, ocamldep, quiet }
+/usr/bin/ocamldep.opt -modules eoAbstract.ml > eoAbstract.ml.depends
 # Target: domFunctor.ml.depends, tags: { extension:ml, file:domFunctor.ml, ocaml, ocamldep, quiet }
 /usr/bin/ocamldep.opt -modules domFunctor.ml > domFunctor.ml.depends
 # Target: domFunctor.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:domFunctor.cmo, file:domFunctor.ml, implem, ocaml, quiet }
 /usr/bin/ocamlc.opt -c -I /home/hwlee/.opam/system/lib/ocamlgraph -o domFunctor.cmo domFunctor.ml
-# Target: function.ml.depends, tags: { extension:ml, file:function.ml, ocaml, ocamldep, quiet }
-/usr/bin/ocamldep.opt -modules function.ml > function.ml.depends
-# Target: abstract.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:abstract.cmo, file:abstract.ml, implem, ocaml, quiet }
-/usr/bin/ocamlc.opt -c -I /home/hwlee/.opam/system/lib/ocamlgraph -o abstract.cmo abstract.ml
-# Target: function.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:function.cmo, file:function.ml, implem, ocaml, quiet }
-/usr/bin/ocamlc.opt -c -I /home/hwlee/.opam/system/lib/ocamlgraph -o function.cmo function.ml
-# Target: lexer.mll, tags: { extension:mll, file:lexer.mll, lexer, ocaml, ocamllex, quiet }
-/usr/bin/ocamllex.opt -q lexer.mll
-# Target: lexer.ml.depends, tags: { extension:ml, file:lexer.ml, ocaml, ocamldep, quiet }
-/usr/bin/ocamldep.opt -modules lexer.ml > lexer.ml.depends
-# Target: parser.mly, tags: { extension:mly, file:parser.mly, infer, ocaml, ocamlyacc, parser, quiet }
-/usr/bin/ocamlyacc parser.mly
-# Target: parser.mli.depends, tags: { extension:mli, file:parser.mli, ocaml, ocamldep, quiet }
-/usr/bin/ocamldep.opt -modules parser.mli > parser.mli.depends
-# Target: parser.cmi, tags: { byte, compile, extension:mli, file:parser.mli, interf, ocaml, quiet }
-/usr/bin/ocamlc.opt -c -I /home/hwlee/.opam/system/lib/ocamlgraph -o parser.cmi parser.mli
-# Target: davinci.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:davinci.cmo, file:davinci.ml, implem, ocaml, quiet }
-/usr/bin/ocamlc.opt -c -I /home/hwlee/.opam/system/lib/ocamlgraph -o davinci.cmo davinci.ml
-# Target: evenOdd.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:evenOdd.cmo, file:evenOdd.ml, implem, ocaml, quiet }
-/usr/bin/ocamlc.opt -c -I /home/hwlee/.opam/system/lib/ocamlgraph -o evenOdd.cmo evenOdd.ml
-# Target: lexer.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:lexer.cmo, file:lexer.ml, implem, ocaml, quiet }
-/usr/bin/ocamlc.opt -c -I /home/hwlee/.opam/system/lib/ocamlgraph -o lexer.cmo lexer.ml
-# Target: main.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:main.cmo, file:main.ml, implem, ocaml, quiet }
-/usr/bin/ocamlc.opt -c -I /home/hwlee/.opam/system/lib/ocamlgraph -o main.cmo main.ml
-# Target: graphPgm.ml.depends, tags: { extension:ml, file:graphPgm.ml, ocaml, ocamldep, quiet }
-/usr/bin/ocamldep.opt -modules graphPgm.ml > graphPgm.ml.depends
-# Target: program.cmx, tags: { compile, extension:cmx, extension:ml, file:program.cmx, file:program.ml, implem, native, ocaml, quiet }
-/usr/bin/ocamlopt.opt -c -I /home/hwlee/.opam/system/lib/ocamlgraph -o program.cmx program.ml
-# Target: graphPgm.cmx, tags: { compile, extension:cmx, extension:ml, file:graphPgm.cmx, file:graphPgm.ml, implem, native, ocaml, quiet }
-/usr/bin/ocamlopt.opt -c -I /home/hwlee/.opam/system/lib/ocamlgraph -o graphPgm.cmx graphPgm.ml
-# Target: domFunctor.cmx, tags: { compile, extension:cmx, extension:ml, file:domFunctor.cmx, file:domFunctor.ml, implem, native, ocaml, quiet }
-/usr/bin/ocamlopt.opt -c -I /home/hwlee/.opam/system/lib/ocamlgraph -o domFunctor.cmx domFunctor.ml
-# Target: abstract.cmx, tags: { compile, extension:cmx, extension:ml, file:abstract.cmx, file:abstract.ml, implem, native, ocaml, quiet }
-/usr/bin/ocamlopt.opt -c -I /home/hwlee/.opam/system/lib/ocamlgraph -o abstract.cmx abstract.ml
-# Target: function.cmx, tags: { compile, extension:cmx, extension:ml, file:function.cmx, file:function.ml, implem, native, ocaml, quiet }
-/usr/bin/ocamlopt.opt -c -I /home/hwlee/.opam/system/lib/ocamlgraph -o function.cmx function.ml
-# Target: parser.ml.depends, tags: { extension:ml, file:parser.ml, ocaml, ocamldep, quiet }
-/usr/bin/ocamldep.opt -modules parser.ml > parser.ml.depends
-# Target: parser.cmx, tags: { compile, extension:cmx, extension:ml, file:parser.cmx, file:parser.ml, implem, native, ocaml, quiet }
-/usr/bin/ocamlopt.opt -c -I /home/hwlee/.opam/system/lib/ocamlgraph -o parser.cmx parser.ml
-# Target: davinci.cmx, tags: { compile, extension:cmx, extension:ml, file:davinci.cmx, file:davinci.ml, implem, native, ocaml, quiet }
-/usr/bin/ocamlopt.opt -c -I /home/hwlee/.opam/system/lib/ocamlgraph -o davinci.cmx davinci.ml
-# Target: evenOdd.cmx, tags: { compile, extension:cmx, extension:ml, file:evenOdd.cmx, file:evenOdd.ml, implem, native, ocaml, quiet }
-/usr/bin/ocamlopt.opt -c -I /home/hwlee/.opam/system/lib/ocamlgraph -o evenOdd.cmx evenOdd.ml
-# Target: lexer.cmx, tags: { compile, extension:cmx, extension:ml, file:lexer.cmx, file:lexer.ml, implem, native, ocaml, quiet }
-/usr/bin/ocamlopt.opt -c -I /home/hwlee/.opam/system/lib/ocamlgraph -o lexer.cmx lexer.ml
-# Target: main.cmx, tags: { compile, extension:cmx, extension:ml, file:main.cmx, file:main.ml, implem, native, ocaml, quiet }
-/usr/bin/ocamlopt.opt -c -I /home/hwlee/.opam/system/lib/ocamlgraph -o main.cmx main.ml
-# Target: main.native, tags: { dont_link_with, extension:native, file:main.native, link, native, ocaml, program, quiet }
-/usr/bin/ocamlopt.opt -I /home/hwlee/.opam/system/lib/ocamlgraph /home/hwlee/.opam/system/lib/ocamlgraph/graph.cmxa domFunctor.cmx program.cmx abstract.cmx graphPgm.cmx davinci.cmx function.cmx evenOdd.cmx parser.cmx lexer.cmx main.cmx -o main.native
-# Compilation successful.
+# Target: eoFunction.ml.depends, tags: { extension:ml, file:eoFunction.ml, ocaml, ocamldep, quiet }
+/usr/bin/ocamldep.opt -modules eoFunction.ml > eoFunction.ml.depends
+# Target: eoAbstract.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:eoAbstract.cmo, file:eoAbstract.ml, implem, ocaml, quiet }
+/usr/bin/ocamlc.opt -c -I /home/hwlee/.opam/system/lib/ocamlgraph -o eoAbstract.cmo eoAbstract.ml
++ /usr/bin/ocamlc.opt -c -I /home/hwlee/.opam/system/lib/ocamlgraph -o eoAbstract.cmo eoAbstract.ml
+File "eoAbstract.ml", line 136, characters 83-84:
+Error: Unbound value x
+Command exited with code 2.
+# Compilation unsuccessful.
