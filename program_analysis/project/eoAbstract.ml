@@ -2,11 +2,14 @@
  * Abstract Domain in the problem #1
  * This domain is composed of (even/odd integer set * location set)
  *)
+
 open Program
 open GraphPgm
 open DomFunctor
 
 exception NoPartialOrder
+exception ErrorStateBot
+exception ErrorStateTop
 
 module EoInt
 =
@@ -80,7 +83,7 @@ struct
 		Pervasives.compare n1 n2
 end
 
-module Point : ELEM = 
+module Point = 
 struct 
 	type t = int
 	let compare = Pervasives.compare
@@ -91,11 +94,12 @@ module StateSet = PrimitiveSet (State)
 module StatePowSet = PowerSetDomain (StateSet)
 module Trace = FunDomain (Point) (StateDomain)
 
-type state = State.t
+type state = StateDomain.t
 type state_set = StatePowSet.t
+type trace = Trace.t
 
-let get_node : state -> node = fun s -> fst s
-let get_memory : state -> memory = fun s -> snd s
+let get_node = fun s -> fst s 
+let get_memory = fun s -> snd s
 
 let rec eval : memory -> exp -> value = fun m e ->
 	let rec join_fetch : LocSet.elt list -> value = fun lst ->
@@ -117,20 +121,145 @@ let rec eval : memory -> exp -> value = fun m e ->
 	| LOC(x) -> Val.make EoInt.BOT (LocPowSet.make [x])
 	| READINT -> Val.make EoInt.TOP LocPowSet.bot
 
-let next : pgm_graph -> state -> state_set = fun pgm_g s ->
+let rec print_list = fun lst ->
+	match lst with
+	| [] -> print_string "\n"
+	| h::t -> print_string h; print_string "\n";print_list t
+
+let rec print_mem = fun mlist ->
+	match mlist with
+	| [] -> print_string ""
+	| h::t -> 
+	let (x, (eo, l)) = h in
+	let loc = String.concat " " (LocPowSet.to_list l) in
+	match eo with
+	| EoInt.BOT -> print_string ("var: " ^ x ^ "  val: nan locs: " ^ loc ^ "\n"); print_mem t
+	| EoInt.ODD -> print_string ("var: " ^ x ^ "  val: odd locs: " ^ loc ^ "\n"); print_mem t
+	| EoInt.ZERO ->  print_string ("var: " ^ x ^ "  val: zero locs: " ^ loc ^ "\n"); print_mem t
+	| EoInt.NONZEROEVEN -> print_string ("var: " ^ x ^ "  val: nonzero locs: " ^ loc ^ "\n"); print_mem t
+	| EoInt.EVEN -> print_string ("var: " ^ x ^ "  val: even locs: " ^ loc ^ "\n"); print_mem t
+	| EoInt.TOP -> print_string ("var: " ^ x ^ "  val: top locs: " ^ loc ^ "\n"); print_mem t
+
+let rec print_trace = fun t ->
+	let tlist = (Trace.to_list t) in
+	match tlist with
+	| [] -> print_string ""
+	| h::tl -> 
+	let (num, st) = h in
+		let _ = print_string ("<" ^ string_of_int(num) ^ "> \n") in
+		match st with
+		| StateDomain.BOT -> raise ErrorStateBot
+		| StateDomain.ELT((n, m)) -> print_mem (Memory.to_list m);print_trace (Trace.make tl)
+		| StateDomain.TOP -> raise ErrorStateTop
+
+let rec print_state_set = fun s ->
+	let slist = (StatePowSet.to_list s) in
+	match slist with
+	| [] -> print_string ""
+	| h::t ->
+	let (n, m) = h in
+		print_mem (Memory.to_list m); print_state_set (StatePowSet.make t)
+
+let next : pgm_graph -> state -> state_set = fun pgm_g st ->
 	let rec next_state_list = fun nlist m ->
 		match nlist with
 		| [] -> []
 		| h::t -> (h, m)::(next_state_list t m)
 	in
+	let rec assign_vars = fun m xlist v ->
+		match xlist with
+		| [] -> Memory.bot
+		| h::t -> 
+			Memory.join (Memory.weakupdate m h v) (assign_vars m t v)
+	in
+	let s = 
+		(match st with
+		| StateDomain.BOT -> raise ErrorStateBot
+		| StateDomain.ELT(e) -> e
+		| StateDomain.TOP -> raise ErrorStateTop)
+	in
 	let m = get_memory s in
 	let n = get_node s in
 	let cmd = get_command n in
+	let next_list = next_state_list (next_nodes pgm_g n) in
 	match cmd with
-	| Assign(v, e) -> StatePowSet.make (next_state_list (next_nodes pgm_g n) (Memory.update m v (eval m e)))
-(*
-	| PtrAssign(v, e) ->
+	| Assign(x, e) -> 
+		let v = eval m e in
+		StatePowSet.make (next_list (Memory.update m x v))
+(*		StatePowSet.make (next_list (assign_vars m [x] v)) *)
+	| PtrAssign(x, e) ->
+		let v = eval m e in
+		StatePowSet.make (next_list (assign_vars m (LocPowSet.to_list (snd (Memory.image m x))) v))
 	| Assume (e) ->
+		let v, _ = eval m e in
+		(match v with 
+		| EoInt.BOT -> StatePowSet.bot
+		| EoInt.ZERO -> StatePowSet.bot
+		| _ -> StatePowSet.make (next_list m))
 	| AssumeNot (e) ->
-*)
-	| Skip -> StatePowSet.make (next_state_list (next_nodes pgm_g n) (Memory.update m x (eval m e)))
+		let v, _ = eval m e in
+		(match v with
+		| EoInt.ZERO -> StatePowSet.make (next_list m)
+		| EoInt.NONZEROEVEN -> StatePowSet.make (next_list m)
+		| EoInt.TOP -> StatePowSet.make (next_list m)
+		| _ -> StatePowSet.bot)
+	| Skip -> StatePowSet.make (next_state_list (next_nodes pgm_g n) m)
+
+let get_state = fun t h i ->
+	match Trace.image t i with
+	| StateDomain.BOT -> (h, Memory.bot)
+	| StateDomain.ELT(s) -> s
+	| StateDomain.TOP -> raise ErrorStateTop
+
+let execute : pgm_graph -> trace = fun pgm_g ->
+	let rec make_init : node list -> trace = fun lst ->
+		match lst with
+		| [] -> Trace.bot
+		| h::t -> 
+		let i = get_id h in
+		Trace.weakupdate (make_init t) i (StateDomain.make (h, Memory.bot))
+	in
+	let rec next_all = fun nlist tr ->
+		match nlist with
+		| [] -> StatePowSet.bot
+		| h::tl -> 
+		let i = get_id h in 
+		let s = Trace.image tr i in
+			StatePowSet.join (next pgm_g s) (next_all tl tr)
+	in
+	let rec partition_join = fun ss ->
+		let slist = StatePowSet.to_list ss in
+		match slist with
+		| [] -> Trace.bot
+		| h::t ->
+		let i = get_id (fst h) in
+		Trace.weakupdate (partition_join (StatePowSet.make t)) i (StateDomain.make h) 
+	in
+	let rec trace_join = fun nlist t1 t2 ->
+		match nlist with
+		| [] -> Trace.bot
+		| h::t ->
+		let i = get_id h in
+		let s1 = get_state t1 h i in
+		let s2 = get_state t2 h i in
+		let m1 = get_memory s1 in
+		let m2 = get_memory s2 in
+		Trace.weakupdate (trace_join t t1 t2) i (StateDomain.make (h, (Memory.join m1 m2)))
+	in
+	let rec trace_leq = fun nlist t1 t2 ->
+		match nlist with
+		| [] -> true
+		| h::t ->
+		let i = get_id h in
+		let m1 = get_memory (get_state t1 h i) in
+		let m2 = get_memory (get_state t2 h i) in
+		(trace_leq t t1 t2) && (Memory.leq m1 m2)
+	in
+	let rec iteration = fun pgm_g t t0 nlist ->
+		let t' = t in
+		let t = trace_join nlist t0 (partition_join (next_all nlist t)) in
+		if trace_leq nlist t t' then t' else (iteration pgm_g t t0 nlist)
+	in
+	let nlist = List.rev (all_nodes pgm_g) in
+	let t0 = make_init nlist in
+		iteration pgm_g t0 t0 nlist
