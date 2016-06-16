@@ -3,6 +3,9 @@ open GraphPgm
 open DavAbstract
 open DomFunctor
 
+
+let rec range i j = if i > j then [] else (DavInt.make i)::(range (i+1) j)
+
 let rec print_mem = fun mlist ->
 	let rec make_int_lst = fun dlist ->
 		match dlist with
@@ -17,7 +20,7 @@ let rec print_mem = fun mlist ->
 	let (x, (d, l)) = h in
 	let loc = String.concat " " (LocPowSet.to_list l) in
 	let dlist = 
-		(if d = DavIntPowSet.TOP 
+		(if d = DavIntPowSet.top
 		then []
 		else (DavIntPowSet.to_list d)) in
 	print_string ("var: " ^ x ^ " val: ");
@@ -89,7 +92,7 @@ let rec eval : memory -> exp -> value = fun m e ->
 	| VAR(x) -> Memory.image m x
 	| DEREF(x) -> join_fetch (LocPowSet.to_list (snd (Memory.image m x)))
 	| LOC(x) -> Val.make DavIntPowSet.bot (LocPowSet.make [x])
-	| READINT -> Val.make (DavIntPowSet.top) (LocPowSet.bot)
+	| READINT -> Val.make DavIntPowSet.top (LocPowSet.bot)
 
 let rec print_state_set = fun s ->
 	let slist = StatePowSet.to_list s in
@@ -134,7 +137,7 @@ let next : pgm_graph -> int -> state -> state_set = fun pgm_g max st ->
 			StatePowSet.make (next_list (assign_vars m (LocPowSet.to_list (snd (Memory.image m x))) v))
 	| Assume(e) ->
 		let v, _ = eval m e in
-		if DavIntPowSet.mem (DavInt.make 0) v then StatePowSet.bot
+		if DavIntPowSet.make [(DavInt.make 0)] = v then StatePowSet.bot
 		else if v = DavIntPowSet.bot then StatePowSet.bot
 		else StatePowSet.make (next_list m)
 	| AssumeNot(e) ->
@@ -198,9 +201,6 @@ let execute : pgm_graph -> trace = fun pgm_g ->
     in
     let rec iteration = fun pgm_g t t0 nlist ->
         let t' = t in
-		let tmp = next_all nlist t in
-		let _ = print_state_set tmp in
-		let _ = print_string "\n" in
         let t = trace_join 1 max t0 (partition_join (next_all nlist t) Trace.bot) Trace.bot in
         if trace_leq 1 max t t' then t' else (iteration pgm_g t t0 nlist)
     in
