@@ -12,15 +12,15 @@ exception ErrorStateBot
 exception ErrorStateTop
 
 module DavInt : sig
-	type t = Z of davint
-	and davint = private int
+	type t = Z of int
+(*	and davint = private int *)
 	val make : int -> t
 	val add : t -> t -> t
 	val neg : t -> t
 	val compare : t -> t -> int
 	end = struct
-	type t = Z of davint
-	and davint = int
+	type t = Z of int
+(*	and davint = int *)
 
 	let compare = fun x y ->
 		let Z(e1) = x in 
@@ -80,6 +80,38 @@ type state = StateDomain.t
 type state_set = StatePowSet.t
 type trace = Trace.t
 
+let rec print_mem = fun mlist ->
+	let rec make_int_lst = fun dlist ->
+		match dlist with
+		| [] -> []
+		| h::t ->
+		let DavInt.Z(d) = h in
+		(string_of_int d)::(make_int_lst t)
+	in
+	match mlist with
+	| [] -> print_string ""
+	| h::t ->
+	let (x, (d, l)) = h in
+	let loc = String.concat " " (LocPowSet.to_list l) in
+	let dlist = DavIntPowSet.to_list d in
+	print_string ("var: " ^ x ^ " ");
+	print_string (String.concat " " (make_int_lst dlist));print_string ("\nloc: "^loc^"\n"); (print_mem t)
+
+let rec print_trace = fun t ->
+	let tlist = (Trace.to_list t) in
+	match tlist with
+	| [] -> print_string ""
+	| h::tl ->
+	let (num, st) = h in
+		let _ = print_string ("<" ^ string_of_int(num) ^ "> \n") in
+		match st with
+		| StateDomain.BOT -> raise ErrorStateBot
+		| StateDomain.ELT((n, m)) ->
+		print_string (command_to_str (get_command n));
+		print_string "\n";
+		print_mem (Memory.to_list m); print_trace (Trace.make tl)
+		| StateDomain.TOP -> raise ErrorStateTop
+
 let get_node = fun s -> fst s
 let get_memory = fun s -> snd s
 
@@ -112,12 +144,32 @@ let rec eval : memory -> exp -> value = fun m e ->
 	in
  	match e with
 	| NUM(i) -> Val.make (DavIntPowSet.make [DavInt.make i]) (LocPowSet.bot)
-	| ADD(e1, e2) -> Val.make (addSets (fst (eval m e1)) (fst (eval m e2))) (LocPowSet.bot)
-	| NEG(e) -> Val.make (negSet (fst (eval m e))) (LocPowSet.bot)
+	| ADD(e1, e2) -> 
+		let d1, l1 = eval m e1 in 
+		let d2, l2 = eval m e2 in
+		Val.make (addSets d1 d2) (LocPowSet.join l1 l2)
+	| NEG(e) -> 
+		let d, l = eval m e in 
+		Val.make (negSet d) l
 	| VAR(x) -> Memory.image m x
 	| DEREF(x) -> join_fetch (LocPowSet.to_list (snd (Memory.image m x)))
 	| LOC(x) -> Val.make DavIntPowSet.bot (LocPowSet.make [x])
 	| READINT -> Val.make (DavIntPowSet.top) (LocPowSet.bot)
+
+let print_val = fun v ->
+	let rec make_int_lst = fun dlist ->
+		match dlist with
+		| [] -> []
+		| h::t ->
+		let DavInt.Z(d) = h in
+		(string_of_int d)::(make_int_lst t)
+	in
+	let (d, l) = v in
+	let loc = String.concat " " (LocPowSet.to_list l) in
+	let dlist = DavIntPowSet.to_list d in
+	print_string "dav: ";
+	print_string (String.concat " " (make_int_lst dlist));print_string ("  loc: "^loc^"\n")
+
 
 let next : pgm_graph -> state -> state_set = fun pgm_g st ->
 	let rec next_state_list = fun nlist m ->
@@ -127,7 +179,7 @@ let next : pgm_graph -> state -> state_set = fun pgm_g st ->
 	in
 	let rec assign_vars = fun m xlist v ->
 		match xlist with
-		| [] -> Memory.bot
+		| [] -> m
 		| h::t -> Memory.join (Memory.weakupdate m h v) (assign_vars m t v)
 	in
 	let s =
@@ -143,9 +195,14 @@ let next : pgm_graph -> state -> state_set = fun pgm_g st ->
 	match cmd with
 	| Assign(x, e) ->
 		let v = eval m e in
-		StatePowSet.make (next_list (assign_vars m [x] v))
+(*		let _ = print_string (x ^ " ") in
+		let _ = print_val v in *)
+		StatePowSet.make (next_list (Memory.weakupdate m x v))
+(*		StatePowSet.make (next_list (assign_vars m [x] v)) *)
 	| PtrAssign(x, e) ->
 		let v = eval m e in
+(*		let _ = print_string (x ^ " ") in
+		let _ = print_val v in *)
 		StatePowSet.make (next_list (assign_vars m (LocPowSet.to_list (snd (Memory.image m x))) v))
 	| Assume(e) ->
 		let v, _ = eval m e in

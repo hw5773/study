@@ -54,6 +54,7 @@ let daVinciAnalyzer : pgm_graph -> result = fun pgm_g ->
 		else NO
     in
     let t = execute pgm_g in
+	let _ = print_trace t in
     let dav = VarMap.empty in
     let nlist = List.rev (all_nodes pgm_g) in
 	let _ = check_davinci t nlist dav in
