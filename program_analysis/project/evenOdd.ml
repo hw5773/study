@@ -6,6 +6,7 @@
 open Program
 open GraphPgm
 open EoAbstract
+open EoFunction
 
 (* Type definitions (Do not modify) *)
 
