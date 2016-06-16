@@ -98,15 +98,7 @@ let rec print_state_set = fun s ->
 	| h::t ->
 	let (i, m) = h in
 		print_int i; print_string "\n"; print_mem (Memory.to_list m); print_state_set (StatePowSet.make t)
-(*
-let rec print_state_set2 = fun s ->
-	let slist = StatePowSet.to_list s in
-	match slist with
-	| [] -> print_string "\n"
-	| h::t ->
-	let (i, m) = h in
-		print_int i; print_string " "; 
-*)
+
 let next : pgm_graph -> int -> state -> state_set = fun pgm_g max st ->
 	let rec next_state_list = fun nlist m ->
 		match nlist with
@@ -127,9 +119,6 @@ let next : pgm_graph -> int -> state -> state_set = fun pgm_g max st ->
 	let m = get_memory s in
 	let n = get_node pgm_g s in
 	let cmd = get_command n in
-	let _ = print_string "id: " in
-	let _ = print_int (get_id n) in
-	let _ = print_string "\n" in
 	let next_list = 
 		let lst = List.map get_id (next_nodes pgm_g n) in
 			match lst with
@@ -139,28 +128,24 @@ let next : pgm_graph -> int -> state -> state_set = fun pgm_g max st ->
 	match cmd with
 	| Assign(x, e) ->
 		let v = eval m e in
-		let x = StatePowSet.make (next_list (Memory.update m x v)) in
-	(*	print_state_set x;*) x
+			StatePowSet.make (next_list (Memory.update m x v))
 	| PtrAssign(x, e) ->
 		let v = eval m e in
-		let x = StatePowSet.make (next_list (assign_vars m (LocPowSet.to_list (snd (Memory.image m x))) v)) in
-	(*	print_state_set x;*) x
+			StatePowSet.make (next_list (assign_vars m (LocPowSet.to_list (snd (Memory.image m x))) v))
 	| Assume(e) ->
 		let v, _ = eval m e in
-		if v = (DavIntPowSet.make[(DavInt.make 0)]) then StatePowSet.bot
+		if DavIntPowSet.mem (DavInt.make 0) v then StatePowSet.bot
 		else if v = DavIntPowSet.bot then StatePowSet.bot
-		else 
-			let x = StatePowSet.make (next_list m) in
-		(*	print_state_set x;*) x
+		else StatePowSet.make (next_list m)
 	| AssumeNot(e) ->
 		let v, _ = eval m e in
 		if DavIntPowSet.mem (DavInt.make 0) v then 
-			let x = StatePowSet.make (next_list m) in
-		(*	print_state_set x;*) x
+			StatePowSet.make (next_list m)
+		else if DavIntPowSet.top = v then
+			StatePowSet.make (next_list m)
 		else StatePowSet.bot
 	| Skip -> 
-		let x = StatePowSet.make (next_list m) in
-		(* print_state_set x;*) x
+		StatePowSet.make (next_list m)
 
 let get_state = fun t i ->
     match Trace.image t i with
@@ -184,26 +169,21 @@ let execute : pgm_graph -> trace = fun pgm_g ->
         | [] -> StatePowSet.bot
         | h::tl ->
         let i = get_id h in
-			let _ = print_string "id: " in
-			let _ = print_int i in
-			let _ = print_string " " in
         let s = Trace.image tr i in
-			let ss = (next pgm_g max s) in
-			let _ = print_state_set ss in
-            StatePowSet.join ss (next_all tl tr)
+            StatePowSet.join (next pgm_g max s) (next_all tl tr)
     in
-    let rec partition_join = fun ss ->
+    let rec partition_join = fun ss tr ->
         let slist = StatePowSet.to_list ss in
         match slist with
-        | [] -> Trace.bot
+        | [] -> tr
         | h::t ->
 		let i = fst h in
-		Trace.weakupdate (partition_join (StatePowSet.make t)) i (StateDomain.make h)
+		partition_join (StatePowSet.make t) (Trace.weakupdate tr i (StateDomain.make h))
     in
     let rec trace_join = fun i max t1 t2 t ->
         let m1 = get_memory (get_state t1 i) in
         let m2 = get_memory (get_state t2 i) in
-		let t' = Trace.update t i (StateDomain.make (i, (Memory.join m1 m2))) in
+		let t' = Trace.weakupdate t i (StateDomain.make (i, (Memory.join m1 m2))) in
 		if i == max
 		then t'
 		else trace_join (i+1) max t1 t2 t'
@@ -218,11 +198,10 @@ let execute : pgm_graph -> trace = fun pgm_g ->
     in
     let rec iteration = fun pgm_g t t0 nlist ->
         let t' = t in
-(*		let tmp = next_all nlist t in
-		let _ = print_string "tmp: \n" in
+		let tmp = next_all nlist t in
 		let _ = print_state_set tmp in
-		let _ = print_string "\n\n" in *)
-        let t = trace_join 1 max t0 (partition_join (next_all nlist t)) Trace.bot in
+		let _ = print_string "\n" in
+        let t = trace_join 1 max t0 (partition_join (next_all nlist t) Trace.bot) Trace.bot in
         if trace_leq 1 max t t' then t' else (iteration pgm_g t t0 nlist)
     in
     let nlist = (all_nodes pgm_g) in

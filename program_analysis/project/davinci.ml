@@ -58,7 +58,6 @@ let daVinciAnalyzer : pgm_graph -> result = fun pgm_g ->
     in
     let t = execute pgm_g in
 	let _ = print_trace pgm_g t in
-    let dav = VarMap.empty in
-	let dav = check_davinci 1 max t dav in 
+	let dav = check_davinci max max t (VarMap.empty) in 
     let res = make_result dav in
 	res
