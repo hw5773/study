@@ -92,7 +92,6 @@ let eoAnalyzer : pgm_graph -> result = fun pgm_g ->
 				make_result (update_result xlist m res) tr t
 	in
 	let t = execute pgm_g in
-	let _ = print_trace pgm_g t in 
 	let res = VarMap.empty in
 	let nlist = List.rev (all_nodes pgm_g) in
 	let res = make_result res t nlist in

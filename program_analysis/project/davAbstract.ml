@@ -170,7 +170,6 @@ let print_val = fun v ->
 	print_string "dav: ";
 	print_string (String.concat " " (make_int_lst dlist));print_string ("  loc: "^loc^"\n")
 
-
 let next : pgm_graph -> state -> state_set = fun pgm_g st ->
 	let rec next_state_list = fun nlist m ->
 		match nlist with
@@ -195,10 +194,7 @@ let next : pgm_graph -> state -> state_set = fun pgm_g st ->
 	match cmd with
 	| Assign(x, e) ->
 		let v = eval m e in
-(*		let _ = print_string (x ^ " ") in
-		let _ = print_val v in *)
 		StatePowSet.make (next_list (Memory.weakupdate m x v))
-(*		StatePowSet.make (next_list (assign_vars m [x] v)) *)
 	| PtrAssign(x, e) ->
 		let v = eval m e in
 (*		let _ = print_string (x ^ " ") in

@@ -284,9 +284,6 @@ let execute : pgm_graph -> trace = fun pgm_g ->
 	in
 	let rec iteration = fun pgm_g t t0 nlist ->
 		let t' = t in
-		let tmp = (partition_join (next_all nlist t)) in
-		let _ = print_string "tmp: \n" in
-		let _ = print_trace pgm_g tmp in 
 		let t = trace_join 1 max t0 (partition_join (next_all nlist t)) Trace.bot in
 		if trace_leq 1 max t t' then t' else (iteration pgm_g t t0 nlist)
 	in
