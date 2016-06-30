@@ -15,10 +15,10 @@ def api_location():
 		lat = js.get("latitude")
 		lon = js.get("longitude")
 
-		print "JSON message: " + json.dumps(js)
-		print "Latitude: " + lat
-		print "Longitude: " + lon
+		print ("JSON message: " + json.dumps(js))
+		print ("Latitude: " + lat)
+		print ("Longitude: " + lon)
 		return jsonify({"message":"test_post", "latitude":lat, "longitude":lon})
 
 if __name__ == "__main__":
-	app.run(host="147.46.216.84", port=7979)
+	app.run(host="147.46.215.152", port=7979)
