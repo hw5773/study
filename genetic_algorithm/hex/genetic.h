@@ -39,7 +39,7 @@ Chromosome 		*offsprings[K+1];	// The array of the offsprings
 extern Chromosome		*max;
 
 // if the stop condition is satisfied then returns 1, if not, returns 0
-int 			stop_condition(void); 
+int 			stop_condition(int edge[][SIZE+1]); 
 
 // operations in GA
 // returns 1 if the selection is done rightly. returns -1 if fails

@@ -51,5 +51,7 @@ int local_optimization(int n, int edge[][SIZE+1])
 		}
 	}
 
+	free_chromosome(tmp);
+
 	return 1;
 }

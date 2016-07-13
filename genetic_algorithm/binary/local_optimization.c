@@ -18,7 +18,7 @@ int local_optimization(int n, int edge[][SIZE+1])
 	int permutation[SIZE+1];
 
 	Chromosome *c;
-	init_chromosome(&c);
+	init_chromosome(&c, edge);
 	
 	for (i=0; i<=SIZE; i++)
 		c->ch[i] = offsprings[n]->ch[i];

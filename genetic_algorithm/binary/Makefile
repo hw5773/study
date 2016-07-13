@@ -3,22 +3,22 @@ OUT=maxcut
 HEADER=genetic.h
 SRC=maxcut.c \
 	binary_chromosome.c \
-	roulette_selection.c \
-	randomonepoint_crossover.c \
+	order_based_selection.c \
+	normuniform_crossover.c \
 	cost.c \
 	increase_mutation.c \
 	general_replacement.c \
-	rate_stop_condition.c \
-	local_optimization.c \
+	bunch_stop_condition.c \
+	cluster_optimization.c \
 	common.c
 OBJ=binary_chromosome.o \
-	roulette_selection.o \
-	randomonepoint_crossover.o \
+	order_based_selection.o \
+	normuniform_crossover.o \
 	cost.o \
 	increase_mutation.o \
 	general_replacement.o \
-	rate_stop_condition.o \
-	local_optimization.o \
+	bunch_stop_condition.o \
+	cluster_optimization.o \
 	common.o
 ORIJINAL=maxcut.c
 TEST=maxcut_test.c

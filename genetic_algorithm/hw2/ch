@@ -1,0 +1,17 @@
+binary_chromosome.c:27:	free(c->ch);
+binary_chromosome.c:104:		printf("%x", c->ch[i]);
+binary_chromosome.c:106:	printf(": %d\n", c->cost);
+check.c:35:		c->ch[i]=0;
+check.c:43:		c->ch[atoi(token)] = 1;
+chromosome.c:28:	free(c->ch);
+chromosome.c:105:		printf("%x", c->ch[i]);
+chromosome.c:107:	printf(": %d\n", c->cost);
+cost.c:25:			else if (c->ch[i] != c->ch[j])
+local_optimization2.c:24:		c->ch[i] = offsprings[n]->ch[i];
+local_optimization2.c:37:			c->ch[permutation[i]] = (1 - c->ch[permutation[i]]) % 2;
+local_optimization2.c:47:				c->ch[permutation[i]] = (1 - c->ch[permutation[i]]) % 2;
+local_optimization2.c:54:			max->ch[i] = c->ch[i];
+local_optimization.c:24:		c->ch[i] = offsprings[n]->ch[i];
+local_optimization.c:37:			c->ch[permutation[i]] = (1 - c->ch[permutation[i]]) % 2;
+local_optimization.c:43:				offsprings[n]->ch[permutation[i]] = c->ch[permutation[i]];
+local_optimization.c:49:				c->ch[permutation[i]] = (1 - c->ch[permutation[i]]) % 2;

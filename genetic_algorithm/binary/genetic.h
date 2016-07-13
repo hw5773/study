@@ -8,7 +8,7 @@
 #define S_RATE		0.7
 #define M_THRE		0.03
 #define N			10
-#define K			1
+#define K			2
 #define P0			0.70
 
 #define POINTS		4
@@ -17,7 +17,9 @@
 #define T			0.68	// the threshold of the tornament selection
 #define C			0.5 // the threshold of the reverse selection
 
-#define RANGE		500
+#define RANGE		50
+#define HUBS		5
+#define PAIRS		250
 
 FILE 			*in, *out;
 extern int 		num_of_vertex;
