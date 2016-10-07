@@ -3,6 +3,7 @@
 import sys
 import copy
 from etc import var_e, replace_factor, sum_over, calculation, check
+from cpt import parent
 
 variables = set(["X1", "X2", "X3", "X4", "X5"])
 # they are parent variables except the first one
@@ -64,16 +65,20 @@ def cond_prob_ve(y, elst):
 		result_str = "P(%s=1) = %lf" % (y, alpha)
 	print result_str
 
+# error messages for inputs
 def error_exit():
 	print "Usage: python main.py <query_variable> <evidence 1> <evidence 2> ..."
 	sys.exit(0)
 
+# check whether the variable used is valid
 def check_variable(v):
 	if v not in variables:
 		print "Error: The variable needs to be one of the element in the set, {X1, X2, X3, X4, X5}"
 		error_exit()
 
-def check_evidences(elst):
+# check whether the evidences are valid
+def check_evidences(q, elst):
+	ret = []
 	for e in elst:
 		if "=" not in e:
 			print "Error: the evidence form is wrong. There is no value"
@@ -82,9 +87,15 @@ def check_evidences(elst):
 			lst = e.split("=")
 			var = lst[0].strip()
 			check_variable(var)
+			if var not in parent[q]:
+				continue
 			val = lst[1].strip()
 			if val not in [0,1]:
 				print "Error: the evidence form is wrong. The event must be 0 or 1"
+				error_exit()
+			ret.append(e)
+
+	return ret
 
 def main():
 	args = len(sys.argv)
@@ -99,7 +110,7 @@ def main():
 		elst = []
 		for i in range(2, args):
 			elst.append(sys.argv[i])
-		check_evidences(elst)
+		elst = check_evidences(x, elst)
 
 		cond_prob_ve(x, elst)
 	else:
