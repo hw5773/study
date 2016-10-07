@@ -16,6 +16,8 @@ order = ["X1", "X2", "X3", "X4", "X5"]
 #   sf		The set of factors
 #   zlst 	The set of variables to be eliminated
 #	elst	The set of evidences
+# Output
+#   sf		The final active list
 def sum_product_ve(sf, zlst, elst):
 	for z in zlst:
 		sf = sum_product_eliminate_var(sf, z)
@@ -24,6 +26,11 @@ def sum_product_ve(sf, zlst, elst):
 
 # sum-product-eliminate-var function. 
 # This function eliminates the variable by summing over it.
+# Input
+#   rf		The active list
+#   z		The variable to be eliminated
+# Output
+#   set2	The active list after the variable is removed
 def sum_product_eliminate_var(rf, z):
 	set1 = []
 	set2 = []
@@ -42,6 +49,10 @@ def sum_product_eliminate_var(rf, z):
 	
 
 # computing the conditional probabilities
+# This function displays the result
+# Input
+#   y		The query variable
+#   elst	The list of observed variables
 def cond_prob_ve(y, elst):
 
 	sf = copy.deepcopy(set_of_factor)
@@ -52,9 +63,13 @@ def cond_prob_ve(y, elst):
 	# extract the set of variables to be eliminated
 	zlst = variables - set([y]) - set(var_e(elst))
 	
+	# get the final active list to calculate the query value
 	result_factor = sum_product_ve(replaced_set, zlst, elst)
+
+	# calculate the value for the query
 	alpha = calculation(result_factor, y)
 
+	# print the result
 	if len(elst) > 0:
 		result_str = "P(%s=1|" % y
 		for e in elst:
@@ -87,6 +102,8 @@ def check_evidences(q, elst):
 			lst = e.split("=")
 			var = lst[0].strip()
 			check_variable(var)
+			if var == q:
+				continue
 			if var not in parent[q]:
 				continue
 			val = lst[1].strip()
@@ -99,15 +116,20 @@ def check_evidences(q, elst):
 
 def main():
 	args = len(sys.argv)
+	elst = []
 	if args == 1:
 		cond_prob_ve("X4", [])
 		cond_prob_ve("X4", ["X3=1"])
 		cond_prob_ve("X3", ["X1=1", "X2=0"])
+	elif args == 2:
+		x = sys.argv[1]
+		check_variable(x)
+		cond_prob_ve(x, elst)
+
 	elif args >= 3:
 		x = sys.argv[1]
 		check_variable(x)
 
-		elst = []
 		for i in range(2, args):
 			elst.append(sys.argv[i])
 		elst = check_evidences(x, elst)
