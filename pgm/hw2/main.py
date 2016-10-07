@@ -1,25 +1,29 @@
 # I refer to the Koller & Friedman's PGM textbook for the VE algorithm
 
 import sys
+import copy
 from etc import var_e, replace_factor, sum_over, calculation, check
-from pprint import pprint
 
 variables = set(["X1", "X2", "X3", "X4", "X5"])
 # they are parent variables except the first one
 set_of_factor = [["X1"], ["X2"], ["X3", "X1", "X2"], ["X4", "X3"], ["X5", "X3"]]
 order = ["X1", "X2", "X3", "X4", "X5"]
 
-# sum-product variable elimination
-def sum_product_ve(sf, zset, elst):
-	for z in zset:
+# Sum-product variable elimination.
+# This function process steps with each variables to be eliminated.
+# Input 
+#   sf		The set of factors
+#   zlst 	The set of variables to be eliminated
+#	elst	The set of evidences
+def sum_product_ve(sf, zlst, elst):
+	for z in zlst:
 		sf = sum_product_eliminate_var(sf, z)
-	print sf
 
 	return sf
 
-# sum-product-eliminate-var function
+# sum-product-eliminate-var function. 
+# This function eliminates the variable by summing over it.
 def sum_product_eliminate_var(rf, z):
-	print "to be eliminated var: %s" % z
 	set1 = []
 	set2 = []
 
@@ -33,24 +37,21 @@ def sum_product_eliminate_var(rf, z):
 		tau = sum_over(set1, z)
 		set2.append(tau)
 		
-	print "active factors:" 
-	pprint(set2)
-
 	return set2
 	
 
 # computing the conditional probabilities
 def cond_prob_ve(y, elst):
 
+	sf = copy.deepcopy(set_of_factor)
+
 	# replace applying the evidence to each factor
-	replaced_set = replace_factor(set_of_factor, elst)
+	replaced_set = replace_factor(sf, elst)
 
 	# extract the set of variables to be eliminated
-	zset = variables - set([y]) - set(var_e(elst))
+	zlst = variables - set([y]) - set(var_e(elst))
 	
-	result_factor = sum_product_ve(replaced_set, zset, elst)
-	print "complete result_factor: "
-	pprint(result_factor)
+	result_factor = sum_product_ve(replaced_set, zlst, elst)
 	alpha = calculation(result_factor, y)
 
 	if len(elst) > 0:
@@ -63,6 +64,28 @@ def cond_prob_ve(y, elst):
 		result_str = "P(%s=1) = %lf" % (y, alpha)
 	print result_str
 
+def error_exit():
+	print "Usage: python main.py <query_variable> <evidence 1> <evidence 2> ..."
+	sys.exit(0)
+
+def check_variable(v):
+	if v not in variables:
+		print "Error: The variable needs to be one of the element in the set, {X1, X2, X3, X4, X5}"
+		error_exit()
+
+def check_evidences(elst):
+	for e in elst:
+		if "=" not in e:
+			print "Error: the evidence form is wrong. There is no value"
+			error_exit()
+		else:
+			lst = e.split("=")
+			var = lst[0].strip()
+			check_variable(var)
+			val = lst[1].strip()
+			if val not in [0,1]:
+				print "Error: the evidence form is wrong. The event must be 0 or 1"
+
 def main():
 	args = len(sys.argv)
 	if args == 1:
@@ -70,13 +93,17 @@ def main():
 		cond_prob_ve("X4", ["X3=1"])
 		cond_prob_ve("X3", ["X1=1", "X2=0"])
 	elif args >= 3:
-		x = sys.argv[2]
+		x = sys.argv[1]
+		check_variable(x)
+
 		elst = []
-		for i in range(3, len(args)+1):
+		for i in range(2, args):
 			elst.append(sys.argv[i])
+		check_evidences(elst)
+
 		cond_prob_ve(x, elst)
 	else:
-		print "Usage: python main.py <query variable> <evidence 1> <evidence 2> ..."
+		error_exit()
 
 if __name__ == "__main__":
 	main()

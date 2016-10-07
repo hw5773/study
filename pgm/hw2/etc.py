@@ -27,15 +27,12 @@ def var_e(elst):
 # apply the evidence to each factor
 def replace_factor(sf, elst):
 
-	print sf
 	vlst = []
 	for e in elst:
 		lst = e.split("=")
 		vlst.append(lst[0].strip())
 
 	sf = [x for x in sf if x[0] not in vlst]
-	print sf
-	print vlst
 
 	for e in elst:
 		lst = e.split("=")
@@ -58,9 +55,7 @@ def sum_over(s, z):
 	for val in range(2):
 		v = z + "=" + str(val)
 
-		tmp = []
-		for e in s:
-			tmp.append(copy.copy(e))
+		tmp = copy.deepcopy(s)
 
 		for f in tmp:
 			if check(z, f):
@@ -97,7 +92,6 @@ def potential_val(f, y):
 			tmp = tmp + calculation(e, y)
 		ret = tmp
 	else:
-		klst = []
 		k = ""
 		if "=" in v:
 			var = v.split("=")[0].strip()
