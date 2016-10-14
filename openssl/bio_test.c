@@ -44,7 +44,8 @@ int main(void)
 	char 		*dataptr;
 	unsigned char		sha[SHA_DIGEST_LENGTH] = {0, };
 	long int 	datalen 	= 	0;
-	char		*teststr	=	"hello world";
+//	char		*teststr	=	"hello world";
+	char		*teststr	=	"  ";
 //	unsigned char end[16];
 	unsigned char iv[16];
 	unsigned char key[16];

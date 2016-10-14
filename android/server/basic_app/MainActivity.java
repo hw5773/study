@@ -1,4 +1,4 @@
-package org.locationprivacy.locationprivacy;
+ackage org.locationprivacy.locationprivacy;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,7 +30,9 @@ public class MainActivity extends Activity {
         btnShowLocation = (Button) findViewById(R.id.btn_start);
         txtLat = (TextView) findViewById(R.id.Latitude);
         txtLon = (TextView) findViewById(R.id.Longitude);
-        String strLat, strLon;
+		// String strLat, strLon; Need to resolve
+        String strLat;
+		String strLon;
 
         // GPS 정보를 보여주기 위한 이벤트 클래스 등록
         btnShowLocation.setOnClickListener(new View.OnClickListener() {
