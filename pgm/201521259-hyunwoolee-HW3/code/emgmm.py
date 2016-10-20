@@ -7,23 +7,23 @@ import math
 import matplotlib.pyplot as plt
 
 def print_usage():
-	print ("Usage: python emgmm.py <data file> <# of clusters> <display on(1)/off(0)>")
-	print ("Example (display on): python emgmm.py mouse.txt 3 1")
-	print ("Example (display off): python emgmm.py mouse.txt 3 0")
+	print ("Usage: python emgmm.py <input file> <output file> <# of clusters> <display on(1)/off(0)>")
+	print ("Example (display on): python emgmm.py mouse.txt emgmm_result.txt 3 1")
+	print ("Example (display off): python emgmm.py mouse.txt emgmm_result.txt 3 0")
 	sys.exit(1)
 
-if len(sys.argv) != 4:
+if len(sys.argv) != 5:
 	print_usage()
 
 data_file = sys.argv[1]
+output_file = sys.argv[2]
 x = []
 mu = {}
 pi = {}
 cov = {}
-var = []
 try:
-	K = int(sys.argv[2])
-	display = int(sys.argv[3])
+	K = int(sys.argv[3])
+	display = int(sys.argv[4])
 except:
 	print_usage()
 
@@ -35,6 +35,7 @@ if display > 1 or display < 0:
 	print ("If you want to see the result by matplotlib, please insert 1 for display")
 	print_usage()
 
+# Parse the input file and store the data into x
 def parsing():
 	try:
 		f = open(data_file, "r")
@@ -46,11 +47,13 @@ def parsing():
 		p = line.strip().split(" ")
 		x.append(np.array([float(p[0].strip()), float(p[1].strip())]))
 
+# Initialize the parameters
 def initialize():
 	e.init_pi(pi, K, 0)
-	e.init_mu(x, mu, K, 0)
-	e.init_cov(x, cov, var, K, 0)
+	e.init_mu(x, mu, K)
+	e.init_cov(x, cov, K, 0)
 
+# E-step
 def e_step():
 	gamma = {}
 
@@ -65,6 +68,7 @@ def e_step():
 
 	return gamma
 
+# M-step
 def m_step(gamma):
 	N = len(x)
 	converged = True
@@ -74,23 +78,29 @@ def m_step(gamma):
 		for n in range(N):
 			Nk = Nk + gamma[n][k]
 
+		# generate a new mean
 		mu_sum = 0
 		for n in range(N):
 			mu_sum = mu_sum + gamma[n][k] * x[n]
 			
 		mu_new = (1.0/Nk) * mu_sum
 
+		# generate a new covariance
 		cov_sum = 0
 		for n in range(N):
 			cov_sum = cov_sum + (gamma[n][k] * np.matrix((x[n] - mu_new)).T).dot((np.matrix(x[n] - mu_new)))
 
 		cov_new = (1.0/Nk) * cov_sum
+
+		# generate a new responsibility
 		pi_new = Nk / N
 
+		# updates
 		mu[k] = mu_new
 		pi[k] = pi_new
 		cov[k] = cov_new
 
+# Calculate the likelihood
 def likelihood(old):
 	converged = False
 
@@ -110,8 +120,9 @@ def likelihood(old):
 	
 	return (converged, l)
 
+# Display the result in the figure and print the result in the output file
 def display_result(gamma):
-	g = open("emgmm_result.txt", "w")
+	g = open(output_file, "w")
 
 	xp = []
 	yp = []
@@ -128,14 +139,16 @@ def display_result(gamma):
 	plt.scatter(xp, yp, s=100, c=color)
 	plt.show()
 		
+# Just print the result in the output file
 def print_result(gamma):
-	g = open("emgmm_result.txt", "w")
+	g = open(output_file, "w")
 
 	for n in range(len(x)):
 		g.write(str(max(gamma[n], key=lambda k:gamma[n][k])) + "\n")
 
 	g.close()
 
+# EM-GMM
 def emgmm():
 	initialize()
 	converged = False
@@ -152,7 +165,7 @@ def emgmm():
 		display_result(gamma)
 	else:
 		print_result(gamma)
-	print ("The result file is 'emgmm_result.txt' of which line is the cluster number assigned to each line in the input file")
+	print ("The result file is '{0}' of which line is the cluster number assigned to each line in the input file".format(output_file))
 
 def main():
 	parsing()

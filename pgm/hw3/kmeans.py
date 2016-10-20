@@ -7,9 +7,9 @@ import math
 import matplotlib.pyplot as plt
 
 def print_usage():
-	print ("Usage: python emgmm.py <data file> <# of clusters> <display on(1)/off(0)>")
-	print ("Example (display on): python emgmm.py mouse.txt 3 1")
-	print ("Example (display off): python emgmm.py mouse.txt 3 0")
+	print ("Usage: python kmeans.py <data file> <# of clusters> <display on(1)/off(0)>")
+	print ("Example (display on): python kmeans.py mouse.txt 3 1")
+	print ("Example (display off): python kmeans.py mouse.txt 3 0")
 	sys.exit(1)
 
 if len(sys.argv) != 4:
@@ -47,9 +47,9 @@ def parsing():
 		x.append(np.array([float(p[0].strip()), float(p[1].strip())]))
 
 def initialize():
-	e.init_pi(pi, K, 0)
-	e.init_mu(x, mu, K, 0)
-	e.init_cov(x, cov, var, K, 0)
+	e.init_pi(pi, K, 1)
+	e.init_mu(x, mu, K, 1)
+	e.init_cov(x, cov, var, K, 1)
 
 def e_step():
 	gamma = {}
@@ -57,11 +57,19 @@ def e_step():
 	for n in range(len(x)):
 		gamma[n] = {}
 		total = 0.0
+		lst = []
 		for j in range(K):
-			total = total + pi[j] * e.gaussian(x[n], mu[j], cov[j])
+			v = pi[j] * e.gaussian(x[n], mu[j], cov[j])
+			total = total + v
+			lst.append(v)
+	
+		idx = lst.index(max(lst))
 
 		for k in range(K):
-			gamma[n][k] = pi[k] * e.gaussian(x[n], mu[k], cov[k])/total
+			if k == idx:
+				gamma[n][k] = 1
+			else:
+				gamma[n][k] = 0
 
 	return gamma
 
@@ -79,17 +87,7 @@ def m_step(gamma):
 			mu_sum = mu_sum + gamma[n][k] * x[n]
 			
 		mu_new = (1.0/Nk) * mu_sum
-
-		cov_sum = 0
-		for n in range(N):
-			cov_sum = cov_sum + (gamma[n][k] * np.matrix((x[n] - mu_new)).T).dot((np.matrix(x[n] - mu_new)))
-
-		cov_new = (1.0/Nk) * cov_sum
-		pi_new = Nk / N
-
 		mu[k] = mu_new
-		pi[k] = pi_new
-		cov[k] = cov_new
 
 def likelihood(old):
 	converged = False
@@ -111,7 +109,7 @@ def likelihood(old):
 	return (converged, l)
 
 def display_result(gamma):
-	g = open("emgmm_result.txt", "w")
+	g = open("kmeans_result.txt", "w")
 
 	xp = []
 	yp = []
@@ -129,7 +127,7 @@ def display_result(gamma):
 	plt.show()
 		
 def print_result(gamma):
-	g = open("emgmm_result.txt", "w")
+	g = open("kmeans_result.txt", "w")
 
 	for n in range(len(x)):
 		g.write(str(max(gamma[n], key=lambda k:gamma[n][k])) + "\n")
@@ -152,7 +150,7 @@ def emgmm():
 		display_result(gamma)
 	else:
 		print_result(gamma)
-	print ("The result file is 'emgmm_result.txt' of which line is the cluster number assigned to each line in the input file")
+	print ("The result file is 'kmeans_result.txt' of which line is the cluster number assigned to each line in the input file")
 
 def main():
 	parsing()
