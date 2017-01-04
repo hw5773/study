@@ -23,7 +23,8 @@ def main():
 		for a in addr:
 			n = n + 1
 			cert = "certs/" + a.replace(".", "_") + "_" + str(i) + ".crt"
-			os.system("echo | timeout 10 openssl s_client -connect %s:443 2>&1 | sed --quiet '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > %s" % (a, cert))
+			a = "www." + a
+			os.system("echo | timeout 10 openssl s_client -CApath /etc/ssl/certs -connect %s:443 2>&1 | sed --quiet '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > %s" % (a, cert))
 			statinfo = os.stat(cert)
 			print ("%d:\t%s is generated with %d bytes." % (n, cert, statinfo.st_size))
 

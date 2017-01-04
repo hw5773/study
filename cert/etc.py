@@ -2,6 +2,7 @@
 def domains(f):
 	fi = open(f, "r")
 	addr = []
+	fi.readline()
 
 	for line in fi:
 		lst = line.split(",")
