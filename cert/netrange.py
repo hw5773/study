@@ -3,6 +3,7 @@ import struct
 import socket
 import subprocess
 import time 
+import math
 
 def usage():
 	print ("Crawl the domain name with the netrange")
@@ -16,10 +17,11 @@ def check_valid(addr):
 
 	if dot_count < 3:
 		while dot_count < 3:
-			addr_lst[dot_count+1] = "0"
+			addr_lst.append('0')
+			dot_count = dot_count + 1
 
-	if addr_lst[-1] == "0":
-		addr_lst[-1] = "1"
+	if addr_lst[-1] == '0':
+		addr_lst[-1] = '1'
 		addr = ".".join(addr_lst)
 	return addr
 
@@ -46,38 +48,53 @@ def output_file_end(of):
 
 # Add hosts on the network
 def add_hosts(ip, number):
-	return check_valid(int2ip(ip2int(ip) + number))
+	host_bit = 32 - number
+	hosts = int(math.pow(2, host_bit))
+	print ("Add ", hosts, " hosts to ", ip)
+	return check_valid(int2ip(ip2int(ip) + hosts))
 
 # Check the whois command
 def lookup(init_addr, end_addr, output_file):
 	addr = init_addr
 	
 	while addr < end_addr:
-		try:
-			process = subprocess.Popen(["whois", int2ip(addr)], stdout=subprocess.PIPE)
-			output = process.communicate()[0].decode('ISO-8859-1').replace("\t", "").split("\n")
+		#try:
+		process = subprocess.Popen(["whois", int2ip(addr)], stdout=subprocess.PIPE)
+		output = process.communicate()[0].decode('ISO-8859-1').replace("\t", "").split("\n")
+		print("whois about ", int2ip(addr), " succeed")
 
-			organization_lst = []
+		organization_lst = []
 
-			start_ip = addr
-			end_ip = addr
+		start_ip = int2ip(addr)
+		end_ip = int2ip(addr)
 
-			for elem in output:
-				if ("NetRange" in elem) or ("inetnum" in elem):
-					if "-" in elem:
-						elem_lst = elem.split(":")[1].strip().split("-")
-						start_ip = elem_lst[0].strip()
-						end_ip = elem_lst[1].strip()
-					if "/" in elem:
-						elem_lst = elem.split(":")[1].strip().split("/")
-						network_number = int(elem_lst[1].strip())
-						start_ip = check_valid(elem_lst[0].strip())
-						end_ip = add_hosts(start_ip, network_number)
+		for elem in output:
+			if ":" not in elem:
+				continue
+			key = elem.split(":")[0].strip()
 
-				if "@" in elem:
-					org = elem.split("@")[1]
-					if org not in organization_lst:
-						organization_lst.append(org)
+			if ("NetRange" in key) or ("inetnum" in key):
+				value = elem.split(":")[1].strip()
+
+				if "-" in value:
+					value_lst = value.split("-")
+					start_ip = value_lst[0].strip()
+					end_ip = value_lst[1].strip()
+				if "/" in value:
+					#print("CIDR is used to represent the range")
+					value_lst = value.split("/")
+					#print("elem_lst: ", elem_lst)
+					network_number = int(value_lst[1].strip())
+					#print("network number: ", network_number)
+					start_ip = check_valid(value_lst[0].strip())
+					#print ("start_ip: ", start_ip)
+					end_ip = add_hosts(start_ip, network_number)
+					#print ("end_ip: ", end_ip)
+
+			if '@' in elem:
+				org = elem.split('@')[1].strip()
+				if org not in organization_lst:
+					organization_lst.append(org)
 
 			organization = ""
 			for elem in organization_lst:
@@ -88,12 +105,12 @@ def lookup(init_addr, end_addr, output_file):
 			else:
 				output_file.write(start_ip + "," + end_ip + "," + organization + "\n")
 
-			addr = ip2int(check_valid(int2ip(ip2int(end_ip) + 1)))
-			print(start_ip + "," + end_ip + "," + organization)
+		print(start_ip + "," + end_ip + "," + organization)
 		
-		except:
-			output_file.write(int2ip(addr) + "," + int2ip(addr) + ",Need to Check\n")
-			addr = ip2int(check_valid(int2ip(ip2int(end_ip) + 1)))
+		#except:
+		#	output_file.write(int2ip(addr) + "," + int2ip(addr) + ",Need to Check\n")
+		addr = ip2int(check_valid(int2ip(ip2int(end_ip) + 1)))
+		time.sleep(0.5)
 
 # Initialize
 def main():
