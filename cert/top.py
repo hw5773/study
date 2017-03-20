@@ -4,6 +4,7 @@ import urllib.request
 import sys
 
 def usage():
+    print ("Purpose: Crawling Top 1,000,000 sites from stuffgate.")
     print ("Usage: python3 top.py <output file name>")
     exit(1)
 

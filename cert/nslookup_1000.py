@@ -62,6 +62,9 @@ def lookup(lst, of):
 
         print (s)
         f.write(s + "\n")
+                
+        if num == 1000:
+            break
 
     f.close()
 

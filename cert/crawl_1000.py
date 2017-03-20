@@ -43,5 +43,8 @@ def main():
             statinfo = os.stat(cert)
             print ("%d:\t%s is generated with %d bytes." % (n, cert, statinfo.st_size))
 
+            if n == 1000:
+                break
+
 if __name__ == "__main__":
     main()

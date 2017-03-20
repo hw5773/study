@@ -6,7 +6,7 @@ def domains(f):
 
 	for line in fi:
 		lst = line.split(",")
-		addr.append(lst[1].replace("\"", "").replace("/", ""). replace(".", "_"))
+		addr.append(lst[1].replace("\"", "").replace("/", ""). replace(".", "_").strip())
 
 	return addr
 

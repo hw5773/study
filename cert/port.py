@@ -22,6 +22,7 @@ def full_scan(min_int, max_int):
         ip = socket.inet_ntoa(struct.pack("!I", addr))
         process = subprocess.Popen(["nmap", "-p443", "-Pn", ip], stdout=subprocess.PIPE)
         output = process.communicate()[0].decode('ascii').replace("\t", "").split("\n")
+        print (ip)
 
         if "443/tcp open  https" in output:
             ip_lst.append(ip)
@@ -45,10 +46,11 @@ def main():
     end = time.time()
     print ("end: ", end)
     print ("elapsed time: ", end - start)
-    print ("total ip addresses: ", len(ip_lst))
+    print ("total ip addresses: ", max_int - min_int)
+    print ("filtered ip addresses: ", len(ip_lst))
 
     for ip in ip_lst:
-        of.write(ip)
+        of.write(ip + "\n")
 
     of.close()
 
