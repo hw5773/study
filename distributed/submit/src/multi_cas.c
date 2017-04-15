@@ -18,10 +18,10 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 	
-	printf("Start the multi thread increment with the fetch and add\n");
+	printf("Start the multi thread increment with the compare and swap\n");
 
 	fp = fopen(argv[1], "w");
-	fprintf(fp, "Round, Time, Value\n");
+	fprintf(fp, "Round, Value, Time\n");
 
 	pthread_t thread[NUM_THREADS];
 	pthread_attr_t attr;
@@ -82,12 +82,36 @@ static inline int fetch_and_add(unsigned long *ptr, unsigned long val)
 	return val;
 }
 
+static inline unsigned long compare_and_swap(unsigned long *ptr, unsigned long old_val, unsigned long new_val)
+{
+	unsigned long ret = 1;
+
+	__asm__ volatile(
+		"movq %2, %%rax\n\t"
+		"movq %3, %%rbx\n\t"
+		"movq %0, %%rcx\n\t"
+		"lock\n\t"
+		"cmpxchg %%rbx, (%%rcx)\n\t"
+		"jz done\n\t"
+		"movq $0, %1\n\t"
+		"done: \n\t"
+		:"=m"(ptr), "=g"(ret)
+		:"g"(old_val), "g"(new_val), "m"(ptr)
+		:"%rax", "%rbx", "rcx", "cc"
+	);
+
+	if (ret) 
+		return 0;
+}
+
 void *increment(void *p)
 {
 	unsigned long tmp;
 	int i;
 	while (count < COUNT)
 	{
-		fetch_and_add(&count, 1);
+		tmp = count;
+		if (tmp < COUNT)
+			compare_and_swap(&count, tmp, (tmp + 1));
 	}
 }

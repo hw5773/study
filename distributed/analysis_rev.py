@@ -23,7 +23,7 @@ def parsing(f):
     for line in f:
         tmp = line.split(",")
         num = int(tmp[0].strip())
-        val.append(int(tmp[1].strip()))
+        val.append(int(tmp[2].strip()))
 
     return val, time
 
