@@ -12,7 +12,8 @@ void sync_main(void *p)
 	while (count < COUNT)
 	{
 		while(sync->lock());
-		count++;
+		if (count < COUNT)
+			count++;
 		sync->unlock();
 	}
 }
