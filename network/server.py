@@ -2,7 +2,7 @@ import socket
 import threading
 
 bind_ip = "0.0.0.0"
-bind_port = 9999
+bind_port = 1234
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((bind_ip, bind_port))
@@ -13,9 +13,9 @@ print "[*] Server is Listening on %s:%d" % (bind_ip, bind_port)
 
 def handler(client_sock):
 	request = client_sock.recv(1024)
-	print "[*] Received: %s" % request
+	print "[*] Received: %s" % request.decode('ascii')
 
-	client_sock.send("Hello!")
+	client_sock.send(b'\x01\x02\x33\x33\x10\x00\x00\x00\r')
 	client_sock.close()
 
 while True:
