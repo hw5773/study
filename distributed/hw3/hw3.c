@@ -7,7 +7,6 @@ int main(int argc, char **argv)
 {
 	if (argc != 5)
 	{
-		printf("Multi thread sync->sync_main with the synchronization method\n");
 		printf("Please insert the result file name\n");
 		printf("USAGE: %s <result file name> <# of threads> <synchronization operation> <# of rounds>\n", argv[0]);
 		printf("SYNC: Test and Set (0), Test and Test and Set (1), Compare and Exchange (2), Fetch and Add (3)\n");
@@ -66,7 +65,7 @@ int main(int argc, char **argv)
 		printf("PROGRESS: Fetch and Add operation is selected\n");
 		sync->lock = faa_lock;
 		sync->unlock = faa_unlock;
-		sync->sync_main = (void *)faa_main;
+		sync->sync_main = (void *)sync_main;
 		sync->operation_name = "Fetch and Add";
 		break;
 	}

@@ -5,7 +5,6 @@
 #include <pthread.h>
 #include <syscall.h>
 #define COUNT 1000000000
-//#define COUNT 10000
 
 extern volatile int l;
 unsigned long get_current_microseconds();

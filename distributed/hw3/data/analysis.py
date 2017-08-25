@@ -35,6 +35,7 @@ def analysis(lst, of):
         ret_stdev[i] = {}
 
     for f in lst:
+        print (f)
         data = open(f, "r")
         tmp = f.strip().split(".")[0].split("_")
         op = tmp[0].strip()
@@ -59,6 +60,7 @@ def main():
         usage()
 
     lst = file_lst()
+    print (lst)
     of = open(sys.argv[1], "w")
     analysis(lst, of)
 

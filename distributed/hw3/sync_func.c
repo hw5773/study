@@ -42,9 +42,11 @@ int ttas_lock()
 	printf("INVOKE: ttas_lock() by %d\n", syscall(SYS_gettid)); 
 #endif
 
-	while (l == 1);
+	do {
+		while (l == 1);
+	} while (tas_lock());
 
-	return tas_lock();
+	return 0;
 }
 
 void ttas_unlock()
@@ -76,7 +78,7 @@ int faa_lock()
 #ifdef DEBUG
 	printf("INVOKE: faa_lock() by %d\n", syscall(SYS_gettid)); 
 #endif
-	return 1;
+	return !(__sync_fetch_and_add(&l, 1));
 }
 
 void faa_unlock()
@@ -84,4 +86,5 @@ void faa_unlock()
 #ifdef DEBUG
 	printf("INVOKE: faa_unlock() by %d\n", syscall(SYS_gettid)); 
 #endif
+	l = 0;
 }
