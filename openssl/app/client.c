@@ -143,6 +143,25 @@ int open_connection(const char *hostname, int port)
          return sd;
 }
 
+void msg_callback(int write_p, int version, int content_type, const void *buf, size_t len, SSL *ssl, void *arg)
+{
+	printf("write_p: %d\n", write_p);
+	printf("version: 0x%x\n", version);
+	printf("content_type: 0x%x\n", content_type);
+	printf("length: %ld\n", len);
+	unsigned char *p;
+	p = (unsigned char *)buf;
+
+	int i;
+	for (i=0; i<len; i++)
+	{
+		printf("%02X ", p[i]);
+		if (i % 8 == 7)
+			printf("\n");
+	}
+}
+
+
 void apps_ssl_info_callback(const SSL *s, int where, int ret)
 {
 	const char *str;
@@ -194,6 +213,7 @@ SSL_CTX* init_client_CTX(void)
     }
 
 	SSL_CTX_set_info_callback(ctx, apps_ssl_info_callback);
+	SSL_CTX_set_msg_callback(ctx, msg_callback);
 
     return ctx;
 }

@@ -8,11 +8,12 @@ GCC=gcc
 CFLAGS=-o
 CLIENT_SRC=client.c
 SERVER_SRC=server.c
-FLAGS=-I/home/hwlee/openssl -L/home/hwlee/openssl
+#FLAGS=-I/home/hwlee/openssl -L/home/hwlee/openssl
+FLAGS=-I/usr/local/include -L/usr/local/lib
 LDFLAGS=-lssl -lcrypto -ldl -lpthread
 GDB=gdb
 
-HOST=www.carol.com
+HOST=carol.com
 PORT=3333
 NUM_OF_THREADS=1
 

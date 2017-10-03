@@ -18,6 +18,7 @@ int open_listener(int port);
 SSL_CTX* init_server_CTX(BIO *outbio);
 void load_certificates(BIO *outbio, SSL_CTX* ctx, char* cacert_file, char* cert_file, char* key_file);
 void print_pubkey(BIO *outbio, EVP_PKEY *pkey);
+void msg_callback(int, int, int, const void *, size_t, SSL *, void *);
 BIO *bio_err;
 
 // Origin Server Implementation
@@ -62,8 +63,8 @@ int main(int count, char *strings[])
 
 	while ((client = accept(server, (struct sockaddr *)&addr, &len)))
 	{
-		BIO_printf(outbio, "Accept\n");
 		ssl = SSL_new(ctx);/* get new SSL state with context */
+		SSL_set_msg_callback(ssl, msg_callback);
 		BIO_printf(outbio, "SSL_new() Success\n");
 		SSL_set_fd(ssl, client);      /* set connection socket to SSL state */
 		BIO_printf(outbio, "SSL_set_fd() Success\n");
@@ -123,6 +124,23 @@ int open_listener(int port)
 	return sd;
 }
 
+void msg_callback(int write_p, int version, int content_type, const void *buf, size_t len, SSL *ssl, void *arg)
+{
+	if (write_p == 2)
+		printf("buf: %s\n", (unsigned char *)buf);
+	else
+	{
+		printf("write_p: %d\n", write_p);
+		printf("version: 0x%x\n", version);
+
+		if (content_type == SSL3_RT_HEADER)
+			printf("from ssl3_read_n(): 0x%x\n", content_type);
+		else
+			printf("content_type: 0x%x\n", content_type);
+		printf("length: %ld\n", len);
+	}
+}
+
 void apps_ssl_info_callback(const SSL *s, int where, int ret)
 {
 	const char *str;
@@ -174,6 +192,7 @@ SSL_CTX* init_server_CTX(BIO *outbio)
 	}
 
 	SSL_CTX_set_info_callback(ctx, apps_ssl_info_callback);
+	SSL_CTX_set_msg_callback(ctx, msg_callback);
 
 	return ctx;
 }
