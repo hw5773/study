@@ -1,4 +1,4 @@
-CERT_FILE=carol_cert.crt
+CERT_FILE=carol_cert.pem
 CA_CERT_FILE=ca_carol.pem
 KEY_FILE=carol_priv.key
 
@@ -8,13 +8,13 @@ GCC=gcc
 CFLAGS=-o
 CLIENT_SRC=client.c
 SERVER_SRC=server.c
-#FLAGS=-I/home/hwlee/openssl -L/home/hwlee/openssl
-FLAGS=-I/usr/local/include -L/usr/local/lib
+FLAGS=-I/home/hwlee/openssl_lib/include -L/home/hwlee/openssl_lib/lib
+#FLAGS=-I/usr/local/include -L/usr/local/lib
 LDFLAGS=-lssl -lcrypto -ldl -lpthread
 GDB=gdb
 
 HOST=carol.com
-PORT=3333
+PORT=443
 NUM_OF_THREADS=1
 
 client:

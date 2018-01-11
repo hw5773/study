@@ -68,6 +68,7 @@ int main(int count, char *strings[])
 		BIO_printf(outbio, "SSL_new() Success\n");
 		SSL_set_fd(ssl, client);      /* set connection socket to SSL state */
 		BIO_printf(outbio, "SSL_set_fd() Success\n");
+		SSL_enable_mb(ssl);
 
 		unsigned long hs_start, hs_end;
 		BIO_printf(outbio, "PROGRESS: TLS Handshake Start\n");
@@ -85,10 +86,10 @@ int main(int count, char *strings[])
 
 		if (sent != response_len)
 		{
-			BIO_printf(outbio, "SERVER: Send the HTTP Redirection Status Code Failed: %d\n", sent);
+			BIO_printf(outbio, "SERVER: Send the HTTP Test Page Failed: %d\n", sent);
 			abort();
 		}
-		BIO_printf(outbio, "SERVER: Send the HTTP Redirection Status Code Success: %d\n", sent);
+		BIO_printf(outbio, "SERVER: Send the HTTP HTTP Test Page Success: %d\n", sent);
 
 		//close(client);
 	}
@@ -130,14 +131,6 @@ void msg_callback(int write_p, int version, int content_type, const void *buf, s
 		printf("buf: %s\n", (unsigned char *)buf);
 	else
 	{
-		printf("write_p: %d\n", write_p);
-		printf("version: 0x%x\n", version);
-
-		if (content_type == SSL3_RT_HEADER)
-			printf("from ssl3_read_n(): 0x%x\n", content_type);
-		else
-			printf("content_type: 0x%x\n", content_type);
-		printf("length: %ld\n", len);
 	}
 }
 
