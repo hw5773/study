@@ -9,9 +9,9 @@ receivers = ["hwlee2014@mmlab.snu.ac.kr"]
 
 def usage():
 	# input the usage of this script
-	print "This script is the skeleton for python3"
+	print ("This script is the skeleton for python3")
 	# input the command to execute this script
-	print "python3 <script name> <arg1> <arg2"
+	print ("python3 <script name> <arg1> <arg2> ...")
 	exit(1)
 
 def send_email(title, msg):
