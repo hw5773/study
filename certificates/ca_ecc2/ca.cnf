@@ -161,6 +161,14 @@ challengePassword_max		= 20
 
 unstructuredName		= An optional company name
 
+[ ecc_cert ]
+basicConstraints = CA:FALSE
+keyUsage = digitalSignature
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid,issuer
+authorityInfoAccess=OCSP;URI:http://147.46.215.152:5678
+subjectAltName = @alt_names
+
 [ usr_cert ]
 
 # These extensions are added when 'ca' signs a request.
@@ -186,7 +194,7 @@ basicConstraints=CA:FALSE
 # nsCertType = client, email, objsign
 
 # This is typical in keyUsage for a client certificate.
-keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+keyUsage = nonRepudiation, digitalSignature
 
 # This will be displayed in Netscape's comment listbox.
 #nsComment			= "OpenSSL Generated Certificate"
@@ -219,8 +227,7 @@ subjectAltName = @alt_names
 
 [ v3_OCSP ]
 basicConstraints = CA:TRUE
-keyUsage = nonRepudiation, digitalSignature, keyEncipherment
-extendedKeyUsage = nonRepudiation, digitalSignature, keyEncipherment
+keyUsage = critical, cRLSign, keyCertSign
 extendedKeyUsage = OCSPSigning
 
 [ v3_req ]
@@ -228,11 +235,12 @@ extendedKeyUsage = OCSPSigning
 # Extensions to add to a certificate request
 
 basicConstraints = CA:FALSE
-keyUsage = digitalSignature, keyEncipherment
+keyUsage = digitalSignature
 subjectAltName = @alt_names
 
 [ alt_names ]
-DNS.1 = *.alice.com
+#DNS.1 = *.origin.com
+DNS.1 = *.tlsec.com
 
 [ v3_ca ]
 
@@ -358,7 +366,7 @@ signer_key	= $dir/private/tsakey.pem # The TSA private key (optional)
 default_policy	= tsa_policy1		# Policy if request did not specify it
 					# (optional)
 other_policies	= tsa_policy2, tsa_policy3	# acceptable policies (optional)
-digests		= md5, sha1		# Acceptable message digests (mandatory)
+digests		= sha256		# Acceptable message digests (mandatory)
 accuracy	= secs:1, millisecs:500, microsecs:100	# (optional)
 clock_precision_digits  = 0	# number of digits after dot. (optional)
 ordering		= yes	# Is ordering defined for timestamps?

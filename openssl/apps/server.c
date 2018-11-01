@@ -13,10 +13,13 @@
 #include "logger.h"
 
 #define FAIL    -1
+#define DHFILE  "dh1024.pem"
 
 int open_listener(int port);
 SSL_CTX* init_server_CTX(BIO *outbio);
 void load_certificates(BIO *outbio, SSL_CTX* ctx, char* cacert_file, char* cert_file, char* key_file);
+void load_dh_params(SSL_CTX *ctx, char *file);
+void load_ecdh_params(SSL_CTX *ctx);
 void print_pubkey(BIO *outbio, EVP_PKEY *pkey);
 void msg_callback(int, int, int, const void *, size_t, SSL *, void *);
 BIO *bio_err;
@@ -52,7 +55,9 @@ int main(int count, char *strings[])
 	cacert = strings[3];
 	key = strings[4];
 
-	ctx = init_server_CTX(outbio);        /* initialize SSL */
+	ctx = init_server_CTX(outbio);
+  load_dh_params(ctx, DHFILE);
+  load_ecdh_params(ctx);
 	load_certificates(outbio, ctx, cacert, cert, key);
 	BIO_printf(outbio, "load_certificates success\n");
 
@@ -175,7 +180,7 @@ SSL_CTX* init_server_CTX(BIO *outbio)
 	SSL_CTX *ctx;
 
 	SSL_load_error_strings();   /* load all error messages */
-	method = (SSL_METHOD *) TLSv1_2_method();  /* create new server-method instance */
+	method = (SSL_METHOD *) TLS_server_method();  /* create new server-method instance */
 	ctx = SSL_CTX_new(method);   /* create new context from method */
 	if ( ctx == NULL )
 	{
@@ -266,3 +271,28 @@ void print_pubkey(BIO *outbio, EVP_PKEY *pkey)
 		BIO_printf(outbio, "Error writing public key data in PEM format\n");
 }
 
+void load_dh_params(SSL_CTX *ctx, char *file)
+{
+  DH *ret = 0;
+  BIO *bio;
+
+  if ((bio = BIO_new_file(file, "r")) == NULL)
+    perror("Couldn't open the DH file");
+
+  ret = PEM_read_bio_DHparams(bio, NULL, NULL, NULL);
+  BIO_free(bio);
+
+  if (SSL_CTX_set_tmp_dh(ctx, ret) != 1)
+    perror("Couldn't set the DH parameter");
+}
+
+void load_ecdh_params(SSL_CTX *ctx)
+{
+  EC_KEY *ecdh = EC_KEY_new_by_curve_name(NID_X9_62_prime256v1);
+
+  if (!ecdh)
+    perror("Couldn't load the ec key");
+
+  if (SSL_CTX_set_tmp_ecdh(ctx, ecdh) != 1)
+    perror("Couldn't set the ECDH parameter (NID_X9_62_prime256v1)");
+}

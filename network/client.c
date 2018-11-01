@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
 {
 	int sock;
 	struct sockaddr_in serv_addr;
+  char *msg = "hello, server!\n";
 	char message[30];
 	int str_len;
 
@@ -30,7 +31,14 @@ int main(int argc, char *argv[])
 	if (connect(sock, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) == -1)
 		error_handling("connect() error");
 	
+  printf("connect() success\n");
+  str_len = write(sock, msg, strlen(msg));
+
+  if (str_len == -1)
+    error_handling("write() error");
+
 	str_len = read(sock, message, sizeof(message) - 1);
+
 	if (str_len == -1)
 		error_handling("read() error");
 	

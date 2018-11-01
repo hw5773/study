@@ -1,0 +1,47 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 9376052230082986353 (0x821e6dd3a99b0171)
+    Signature Algorithm: ecdsa-with-SHA256
+        Issuer: C=KR, ST=Seoul, L=Seoul, O=Alice Inc., OU=Alice, CN=ca.alice.com/emailAddress=ca@alice.com
+        Validity
+            Not Before: Oct 11 10:24:33 2018 GMT
+            Not After : Oct 11 10:24:33 2019 GMT
+        Subject: C=KR, ST=Seoul, L=Seoul, O=SNU MMLAB, OU=MMLAB, CN=a.edgecache.com/emailAddress=ec@edgecache.com
+        Subject Public Key Info:
+            Public Key Algorithm: id-ecPublicKey
+                Public-Key: (256 bit)
+                pub: 
+                    04:5e:e7:1f:0d:59:9c:67:c2:bb:3d:c6:77:b8:79:
+                    56:7b:8f:59:4b:31:99:57:7c:4e:73:d9:45:9d:66:
+                    77:b5:41:2a:19:19:cf:7a:36:4b:0d:19:13:25:67:
+                    89:59:ad:49:42:b1:ca:0b:1d:1a:13:1a:8d:64:5f:
+                    e8:b0:c6:9c:c0
+                ASN1 OID: prime256v1
+        X509v3 extensions:
+            X509v3 Basic Constraints: 
+                CA:FALSE
+            X509v3 Key Usage: 
+                Digital Signature
+            X509v3 Subject Alternative Name: 
+                DNS:*.edgecache.com
+    Signature Algorithm: ecdsa-with-SHA256
+         30:44:02:20:09:3f:64:27:a9:fd:05:c7:7a:0e:50:72:fb:ef:
+         4d:e9:e8:ef:17:ae:1f:f2:9a:68:38:de:1c:e3:ad:57:b1:74:
+         02:20:36:e0:18:ab:15:68:c4:b3:ca:90:54:92:60:a3:f9:6d:
+         5f:58:3d:c4:ef:ec:d0:10:ae:df:34:97:27:2f:1d:ae
+-----BEGIN CERTIFICATE-----
+MIICQDCCAeegAwIBAgIJAIIebdOpmwFxMAoGCCqGSM49BAMCMIGGMQswCQYDVQQG
+EwJLUjEOMAwGA1UECAwFU2VvdWwxDjAMBgNVBAcMBVNlb3VsMRMwEQYDVQQKDApB
+bGljZSBJbmMuMQ4wDAYDVQQLDAVBbGljZTEVMBMGA1UEAwwMY2EuYWxpY2UuY29t
+MRswGQYJKoZIhvcNAQkBFgxjYUBhbGljZS5jb20wHhcNMTgxMDExMTAyNDMzWhcN
+MTkxMDExMTAyNDMzWjCBjDELMAkGA1UEBhMCS1IxDjAMBgNVBAgMBVNlb3VsMQ4w
+DAYDVQQHDAVTZW91bDESMBAGA1UECgwJU05VIE1NTEFCMQ4wDAYDVQQLDAVNTUxB
+QjEYMBYGA1UEAwwPYS5lZGdlY2FjaGUuY29tMR8wHQYJKoZIhvcNAQkBFhBlY0Bl
+ZGdlY2FjaGUuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEXucfDVmcZ8K7
+PcZ3uHlWe49ZSzGZV3xOc9lFnWZ3tUEqGRnPejZLDRkTJWeJWa1JQrHKCx0aExqN
+ZF/osMacwKM2MDQwCQYDVR0TBAIwADALBgNVHQ8EBAMCB4AwGgYDVR0RBBMwEYIP
+Ki5lZGdlY2FjaGUuY29tMAoGCCqGSM49BAMCA0cAMEQCIAk/ZCep/QXHeg5Qcvvv
+Teno7xeuH/KaaDjeHOOtV7F0AiA24BirFWjEs8qQVJJgo/ltX1g9xO/s0BCu3zSX
+Jy8drg==
+-----END CERTIFICATE-----

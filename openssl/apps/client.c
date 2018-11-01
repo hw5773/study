@@ -16,11 +16,13 @@
 #include <openssl/opensslv.h>
 
 #define FAIL    -1
+#define BUF_SIZE 1024
 
 void *run(void *data);
 int open_connection(const char *hostname, int port);
 SSL_CTX* init_client_CTX(void);
 void load_certificates(BIO *outbio, SSL_CTX* ctx, char* cert_file, char* key_file);
+void load_ecdh_params(SSL_CTX *ctx);
 void print_pubkey(BIO *outbio, EVP_PKEY *pkey);
 SSL_CTX *ctx;
 char *hostname, *portnum;
@@ -29,11 +31,11 @@ BIO *bio_err;
 // Warrant Client Implementation
 int main(int count, char *strings[])
 {   
-    if ( count != 4 )
-    {
-        printf("usage: %s <hostname> <portnum> <num of threads>\n", strings[0]);
-        exit(0);
-    }
+  if ( count != 4 )
+  {
+    printf("usage: %s <hostname> <portnum> <num of threads>\n", strings[0]);
+    exit(0);
+  }
 
 	int i, rc, num_of_threads;
 
@@ -45,17 +47,19 @@ int main(int count, char *strings[])
 	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 	void *status;
 
-    SSL_library_init();
-    hostname = strings[1];
-    portnum = strings[2];
+  SSL_library_init();
+  hostname = strings[1];
+  portnum = strings[2];
 
 	bio_err = BIO_new_fp(stdout, BIO_NOCLOSE);
 
-    ctx = init_client_CTX();
+  ctx = init_client_CTX();
+  load_ecdh_params(ctx);
 
 	unsigned long start, end;
 
 	start = get_current_microseconds();
+
 	for (i=0; i<num_of_threads; i++)
 	{
 		rc = pthread_create(&thread[i], &attr, run, NULL);
@@ -87,60 +91,77 @@ int main(int count, char *strings[])
 
 	SSL_CTX_free(ctx);        /* release context */
     
-    return 0;
+  return 0;
 }
 
 void *run(void *data)
 {	
-	int server;
+	int server, sent, rcvd, ret;
+  unsigned char buf[BUF_SIZE];
 	SSL *ssl;
+  const char *request =
+    "GET / HTTP/1.1\r\n"
+    "Host: www.matls.com\r\n\r\n";
+  int request_len = strlen(request);
 
 	server = open_connection(hostname, atoi(portnum));
-    ssl = SSL_new(ctx);      /* create new SSL connection state */
-    SSL_set_fd(ssl, server);    /* attach the socket descriptor */
+  ssl = SSL_new(ctx);      /* create new SSL connection state */
+  SSL_set_fd(ssl, server);    /* attach the socket descriptor */
 
-    struct timeval tv;
-    gettimeofday( &tv, 0 );
+  struct timeval tv;
+  gettimeofday( &tv, 0 );
 
 	unsigned long hs_start, hs_end;
 	printf("PROGRESS: TLS Handshake Start\n");
 	hs_start = get_current_microseconds();
-    if ( SSL_connect(ssl) == FAIL )   /* perform the connection */
-      	ERR_print_errors_fp(stderr);
+
+  if ( SSL_connect(ssl) == FAIL )   /* perform the connection */
+    ERR_print_errors_fp(stderr);
 	else
 	{
 		hs_end = get_current_microseconds();
-    	printf("PROGRESS: TLS Handshake Complete!\nConnected with %s encryption\n", SSL_get_cipher(ssl));
+    printf("PROGRESS: TLS Handshake Complete!\nConnected with %s encryption\n", SSL_get_cipher(ssl));
 		printf("ELAPSED TIME: %lu us\n", hs_end - hs_start);
+    sent = SSL_write(ssl, request, request_len);
+    printf("Request: %s\n", request);
+    printf("Sent Length: %d\n", sent);
+
+    rcvd = SSL_read(ssl, buf, BUF_SIZE);
+    buf[rcvd] = 0;
+
+    printf("Response: %s\n", buf);
+    printf("Rcvd Length: %d\n", rcvd);
 	}
         
 	SSL_free(ssl);        /* release connection state */
-       
 	close(server);         /* close socket */
 }
 
 int open_connection(const char *hostname, int port)
-{   int sd;
-    struct hostent *host;
-    struct sockaddr_in addr;
+{   
+  int sd;
+  struct hostent *host;
+  struct sockaddr_in addr;
             
-    if ( (host = gethostbyname(hostname)) == NULL )
-    {
-          perror(hostname);
-          abort();
-    }
-    sd = socket(PF_INET, SOCK_STREAM, 0);
-    bzero(&addr, sizeof(addr));
-    addr.sin_family = AF_INET;
-    addr.sin_port = htons(port);
-    addr.sin_addr.s_addr = *(long*)(host->h_addr);
-    if ( connect(sd, (struct sockaddr*)&addr, sizeof(addr)) != 0 )
-    {
-         close(sd);
-         perror(hostname);
-         abort();
-    }
-         return sd;
+  if ( (host = gethostbyname(hostname)) == NULL )
+  {
+    perror(hostname);
+    abort();
+  }
+    
+  sd = socket(PF_INET, SOCK_STREAM, 0);
+  bzero(&addr, sizeof(addr));
+  addr.sin_family = AF_INET;
+  addr.sin_port = htons(port);
+  addr.sin_addr.s_addr = *(long*)(host->h_addr);
+    
+  if ( connect(sd, (struct sockaddr*)&addr, sizeof(addr)) != 0 )
+  {
+    close(sd);
+    perror(hostname);
+    abort();
+  }
+  return sd;
 }
 
 void msg_callback(int write_p, int version, int content_type, const void *buf, size_t len, SSL *ssl, void *arg)
@@ -199,23 +220,27 @@ void apps_ssl_info_callback(const SSL *s, int where, int ret)
 }
 
 SSL_CTX* init_client_CTX(void)
-{   SSL_METHOD *method;
-    SSL_CTX *ctx;
+{ 
+  SSL_METHOD *method;
+  SSL_CTX *ctx;
         
-    OpenSSL_add_all_algorithms();  /* Load cryptos, et.al. */
-    SSL_load_error_strings();   /* Bring in and register error messages */
-    method = (SSL_METHOD *)TLSv1_2_client_method();  /* Create new client-method instance */
-    ctx = SSL_CTX_new(method);   /* Create new context */
-    if ( ctx == NULL )
-    {
-         ERR_print_errors_fp(stderr);
-         abort();
-    }
+  OpenSSL_add_all_algorithms();  /* Load cryptos, et.al. */
+  SSL_load_error_strings();   /* Bring in and register error messages */
+  method = (SSL_METHOD *)TLS_client_method();  /* Create new client-method instance */
+  ctx = SSL_CTX_new(method);   /* Create new context */
 
-	SSL_CTX_set_info_callback(ctx, apps_ssl_info_callback);
-	SSL_CTX_set_msg_callback(ctx, msg_callback);
+  if ( ctx == NULL )
+  {
+    ERR_print_errors_fp(stderr);
+    abort();
+  }
 
-    return ctx;
+  SSL_CTX_set_cipher_list(ctx, "ECDHE-RSA-AES128-GCM-SHA256");
+
+//	SSL_CTX_set_info_callback(ctx, apps_ssl_info_callback);
+//	SSL_CTX_set_msg_callback(ctx, msg_callback);
+
+  return ctx;
 }
  
 void load_certificates(BIO *outbio, SSL_CTX* ctx, char* cert_file, char* key_file)
@@ -293,4 +318,15 @@ void print_pubkey(BIO *outbio, EVP_PKEY *pkey)
 
 	if (!PEM_write_bio_PUBKEY(outbio, pkey))
 		BIO_printf(outbio, "Error writing public key data in PEM format\n");
+}
+
+void load_ecdh_params(SSL_CTX *ctx)
+{
+  EC_KEY *ecdh = EC_KEY_new_by_curve_name(NID_X9_62_prime256v1);
+
+  if (!ecdh)
+    perror("Couldn't load the ec key");
+
+  if (SSL_CTX_set_tmp_ecdh(ctx, ecdh) != 1)
+    perror("Couldn't set the ECDH parameter (NID_X9_62_prime256v1)");
 }

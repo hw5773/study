@@ -8,7 +8,7 @@ GCC=gcc
 CFLAGS=-o
 CLIENT_SRC=client.c
 SERVER_SRC=server.c
-FLAGS=-I/home/hwlee/openssl_lib/include -L/home/hwlee/openssl_lib/lib
+FLAGS=-I/home/hwlee/openssl-ec-lib/include -L/home/hwlee/openssl-ec-lib/lib
 #FLAGS=-I/usr/local/include -L/usr/local/lib
 LDFLAGS=-lssl -lcrypto -ldl -lpthread
 GDB=gdb
@@ -16,6 +16,8 @@ GDB=gdb
 HOST=carol.com
 PORT=443
 NUM_OF_THREADS=1
+
+all: client server
 
 client:
 	${GCC} ${CFLAGS} ${CLIENT} ${CLIENT_SRC} ${FLAGS} ${LDFLAGS}
