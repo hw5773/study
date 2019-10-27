@@ -9,8 +9,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
+#include <time.h>
 
 #define MAX_LINE 16384
+
+clock_t start, end;
 
 char rot13_char(char c)
 {
@@ -111,6 +114,8 @@ int do_write(int fd, struct fd_state *state)
     state->n_written = state->write_upto = state->buffer_used = 0;
 
   state->writing = 0;
+  end = clock();
+  printf("Elapsed Time: %lf\n", (double)(end - start)/CLOCKS_PER_SEC);
 
   return 0;
 }
@@ -156,8 +161,6 @@ void run(void)
   FD_ZERO(&writeset);
   FD_ZERO(&exset);
 
-  FD_SET(listener, &readset);
-
   while (1)
   {
     maxfd = listener;
@@ -165,6 +168,8 @@ void run(void)
     FD_ZERO(&readset);
     FD_ZERO(&writeset);
     FD_ZERO(&exset);
+
+    FD_SET(listener, &readset);
 
 
     for (i=0; i<FD_SETSIZE; ++i)
@@ -202,7 +207,7 @@ void run(void)
       }
       else
       {
-        printf("accept: %d!\n", fd);
+        start = clock();
         make_nonblocking(fd);
         state[fd] = alloc_fd_state();
         assert(state[fd]);

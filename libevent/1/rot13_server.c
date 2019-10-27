@@ -4,8 +4,11 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define MAX_LINE 16384
+
+clock_t start, end;
 
 char rot13_char(char c)
 {
@@ -37,7 +40,6 @@ void child(int fd)
 
     if (outbuf_used < sizeof(outbuf))
     {
-      printf("ch: %c\n", ch);
       outbuf[outbuf_used++] = rot13_char(ch);
     }
 
@@ -45,6 +47,8 @@ void child(int fd)
     {
       send(fd, outbuf, outbuf_used, 0);
       outbuf_used = 0;
+      end = clock();
+      printf("Elapsed Time: %lf\n", (double)(end - start)/CLOCKS_PER_SEC);
       continue;
     }
   }
@@ -93,6 +97,7 @@ void run(void)
     {
       if (fork() == 0)
       {
+        start = clock();
         child(fd);
         exit(0);
       }
